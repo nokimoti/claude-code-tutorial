@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>シェル - 用語集 - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list"><li><a href="index.html">用語集</a></li></ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">用語集</div>
+    <h1>シェル (Shell)</h1>
+
+    <div class="definition">
+      <a class="term" href="terminal.html">ターミナル</a> の中で動いていて、
+      あなたが入力したコマンドを解釈して実行する役割の <strong>プログラム</strong> のこと。
+    </div>
+
+    <h2>主なシェルの種類</h2>
+    <ul>
+      <li><strong>bash</strong> — 古くから使われる定番。Linux サーバーなどで標準</li>
+      <li><strong>zsh</strong> — bash の後継的存在。macOS の標準シェル</li>
+      <li><strong>PowerShell</strong> — Windows 標準。文法が独特</li>
+      <li><strong>fish</strong> — 補完がリッチで使いやすい</li>
+    </ul>
+    <p>
+      シェルが違うとコマンドの書き方が少し違います。
+      たとえば「環境変数を見る」だけでも bash なら <code>echo $PATH</code>、
+      PowerShell なら <code>$env:PATH</code> のように書き方が変わります。
+    </p>
+    <p>
+      Claude Code はあなたの OS で動いているシェルを自動で判別して、
+      そのシェル用のコマンドを組み立ててくれます。
+    </p>
+
+    <h2>関連ステップ</h2>
+    <ul>
+      <li><a href="../steps/08-run-command.html">STEP 08: コマンドを実行させる</a></li>
+    </ul>
+
+    <p style="margin-top: 40px;"><a href="index.html">← 用語集に戻る</a></p>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>フック - 用語集 - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list"><li><a href="index.html">用語集</a></li></ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">用語集</div>
+    <h1>フック (Hook)</h1>
+
+    <div class="definition">
+      ある操作の <strong>前後</strong> に、決まったコマンドを <strong>自動で走らせる仕組み</strong>。
+      <a class="term" href="settings-json.html">settings.json</a> に書きます。
+    </div>
+
+    <h2>いつ走らせるか</h2>
+    <ul>
+      <li><strong>PreToolUse</strong> — ツールが使われる直前 (許可前にチェックを挟むなど)</li>
+      <li><strong>PostToolUse</strong> — ツールが使われた直後 (編集後に linter を走らせるなど)</li>
+      <li><strong>UserPromptSubmit</strong> — ユーザーが送信した直後</li>
+      <li><strong>Stop</strong> — Claude が応答を終えたとき</li>
+      <li><strong>SessionStart</strong> / <strong>SessionEnd</strong> — セッション開始時・終了時</li>
+    </ul>
+
+    <h2>例: 編集後に自動でフォーマット</h2>
+<pre><code>{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "npm run format" }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+    <p>
+      この設定があると、Claude がファイルを編集するたびに自動で <code>npm run format</code> が走ります。
+    </p>
+
+    <h2>禁止用にも使える</h2>
+    <p>
+      PreToolUse で「特定の条件のツール呼び出しをブロック」することもできます。
+      たとえば「<code>.env</code> ファイルへの書き込みは絶対禁止」のようなルールを書けます。
+    </p>
+
+    <h2>関連ステップ</h2>
+    <ul>
+      <li><a href="../steps/15-next-step.html">STEP 15: 次の一歩</a></li>
+    </ul>
+
+    <p style="margin-top: 40px;"><a href="index.html">← 用語集に戻る</a></p>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

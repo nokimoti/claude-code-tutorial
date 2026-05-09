@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCP - 用語集 - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list"><li><a href="index.html">用語集</a></li></ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">用語集</div>
+    <h1>MCP (Model Context Protocol)</h1>
+
+    <div class="definition">
+      Claude のような AI に <strong>外部システムへの手足を生やす</strong> ための共通規格。
+      MCP に対応したサーバーを接続することで、Claude が新しい <a class="term" href="tool.html">ツール</a> を使えるようになります。
+    </div>
+
+    <h2>たとえばこんな連携ができる</h2>
+    <ul>
+      <li>Notion / Slack / GitHub の中身を読み書きする</li>
+      <li>社内のデータベースに直接クエリを投げる</li>
+      <li>ブラウザを操作して Web スクレイピング</li>
+      <li>Figma や Google Drive のファイルを開く</li>
+    </ul>
+    <p>
+      公式・非公式を含めて、世界中で MCP サーバーが公開されており、
+      組み合わせ次第で Claude Code がぐっと強力になります。
+    </p>
+
+    <h2>接続方法</h2>
+    <p>
+      <code>.claude/mcp.json</code> や <code>.mcp.json</code> に接続先を書き、
+      入力欄で <code>/mcp</code> と打つと管理画面が開きます。
+      接続したサーバーが提供するツールは、自動で Claude が使えるようになります。
+    </p>
+
+    <h2>「規格」だから何にでもつなげる</h2>
+    <p>
+      MCP は <a class="term" href="anthropic.html">Anthropic</a> が公開している規格で、
+      Claude 以外の AI ツールも MCP に対応しはじめています。
+      ある場所で作った MCP サーバーが、別の AI でもそのまま使える、というのが狙いです。
+    </p>
+
+    <h2>関連ステップ</h2>
+    <ul>
+      <li><a href="../steps/15-next-step.html">STEP 15: 次の一歩</a></li>
+    </ul>
+
+    <p style="margin-top: 40px;"><a href="index.html">← 用語集に戻る</a></p>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

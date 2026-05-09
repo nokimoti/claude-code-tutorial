@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>トークン - 用語集 - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list"><li><a href="index.html">用語集</a></li></ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">用語集</div>
+    <h1>トークン (Token)</h1>
+
+    <div class="definition">
+      AI がテキストを処理するときの <strong>最小単位</strong>。
+      1 文字とも 1 単語ともちょっと違う、独特の区切り方で数えられます。
+    </div>
+
+    <h2>感覚的な目安</h2>
+    <ul>
+      <li>英語: 1 トークン ≒ 0.75 単語</li>
+      <li>日本語: 1 トークン ≒ 1〜2 文字 (漢字は 1 文字で数トークンになることも)</li>
+      <li>1000 トークン ≒ 英語で 750 単語、日本語で 600〜1000 文字くらい</li>
+    </ul>
+
+    <h2>料金もパフォーマンスも「トークン」が単位</h2>
+    <p>
+      AI の世界では、<strong>料金も処理量もトークン単位</strong> で計算されます。
+    </p>
+    <ul>
+      <li>API 利用時の料金: 「入力 1M トークンあたり $X」のように決まる</li>
+      <li>会話の長さの上限: <a class="term" href="context-window.html">コンテキストウィンドウ</a> もトークンで決まる</li>
+    </ul>
+
+    <h2>節約のコツ</h2>
+    <ul>
+      <li>必要のない長文を貼り付けない</li>
+      <li>巨大なファイルは範囲を絞って読ませる</li>
+      <li>区切りで <code>/clear</code> して履歴をリセット</li>
+      <li>長くなった会話は <code>/compact</code> で要約圧縮</li>
+    </ul>
+
+    <h2>関連ステップ</h2>
+    <ul>
+      <li><a href="../steps/05-first-conversation.html">STEP 05: はじめての会話</a></li>
+      <li><a href="../steps/13-resume.html">STEP 13: 続きから始める</a></li>
+    </ul>
+
+    <p style="margin-top: 40px;"><a href="index.html">← 用語集に戻る</a></p>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 15: 次の一歩 - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 15</div>
+    <h1>次の一歩</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li>ここから先に学べる、もう少し進んだ機能の名前と用途を知る</li>
+      </ul>
+    </div>
+
+    <h2>おつかれさまでした</h2>
+    <p>
+      ここまで読んだあなたは、Claude Code の基本操作を一通り把握しています。
+      ファイルを読ませる・書き換えさせる・コマンドを実行させる・計画を立てさせる
+      ── これだけで、毎日の作業時間がかなり変わるはずです。
+    </p>
+    <p>
+      ここから先は、もっと使い込みたくなったときに見る「次のメニュー」を紹介します。
+      今すぐ理解する必要はありません。<strong>こういう機能があるんだな</strong> と頭の片隅に置いておいてください。
+    </p>
+
+    <h2>1. <a class="term" href="../glossary/ide.html">IDE</a> 連携</h2>
+    <p>
+      VS Code や JetBrains 系の <a class="term" href="../glossary/ide.html">IDE</a> に Claude Code 拡張をインストールすると、
+      エディタ内に Claude Code のサイドパネルが開いて、ターミナルと IDE を行き来する手間が減ります。
+      また、IDE で開いているファイルが自動でコンテキストとして共有されます。
+    </p>
+
+    <h2>2. <a class="term" href="../glossary/git.html">Git</a> を組み合わせる</h2>
+    <p>
+      <a class="term" href="../glossary/git.html">Git</a> でバージョン管理しているプロジェクトでは、Claude Code の真価が出ます。
+    </p>
+    <ul>
+      <li>編集前に commit しておけば、いつでも元に戻せる</li>
+      <li>「PR 作って」と頼めば <code>gh pr create</code> までやってくれる</li>
+      <li>「最近のコミットを要約して」のようなレビュー支援も得意</li>
+    </ul>
+
+    <h2>3. <a class="term" href="../glossary/subagent.html">サブエージェント</a></h2>
+    <p>
+      <a class="term" href="../glossary/subagent.html">サブエージェント</a> は、特定の役割を持つ「分身」のような仕組みです。
+      たとえば「コードレビュー専門」「テスト実行専門」のサブエージェントを定義しておくと、
+      メインの Claude がそのときだけ専門家を呼び出して仕事を分担できます。
+      入力欄で <code>/agents</code> から管理できます。
+    </p>
+
+    <h2>4. <a class="term" href="../glossary/mcp.html">MCP</a> サーバー</h2>
+    <p>
+      <a class="term" href="../glossary/mcp.html">MCP</a> (Model Context Protocol) は、
+      Claude に「外部システムへの手足」を生やす仕組みです。
+      MCP サーバーを接続すると、たとえば
+    </p>
+    <ul>
+      <li>Notion や Slack の中身を Claude に読み書きさせる</li>
+      <li>社内のデータベースに直接クエリを投げさせる</li>
+      <li>ブラウザを操作させる</li>
+    </ul>
+    <p>
+      といった連携ができるようになります。
+    </p>
+
+    <h2>5. <a class="term" href="../glossary/hook.html">フック</a></h2>
+    <p>
+      <a class="term" href="../glossary/hook.html">フック</a> は「ある操作の前後に、決まったコマンドを自動で走らせる」仕組みです。
+    </p>
+    <ul>
+      <li>ファイル編集後、自動で linter を走らせる</li>
+      <li>セッション終了時、自動で git status を表示する</li>
+      <li>特定の操作を完全に禁止する</li>
+    </ul>
+    <p>
+      こうしたルールを <a class="term" href="../glossary/settings-json.html">settings.json</a> に書いておけます。
+    </p>
+
+    <h2>6. <a class="term" href="../glossary/skill.html">スキル</a></h2>
+    <p>
+      Claude が「PDF を読む」「Excel を編集する」など、専門的な作業を行うための小さな知識パックです。
+      公式が用意しているもののほか、自分で作って共有することもできます。
+    </p>
+
+    <h2>公式情報の入り口</h2>
+    <ul>
+      <li>公式ドキュメント: <a href="https://docs.claude.com/en/docs/claude-code/overview" target="_blank" rel="noopener">docs.claude.com</a></li>
+      <li>ヘルプ: 入力欄で <code>/help</code></li>
+      <li>不具合報告: <a href="https://github.com/anthropics/claude-code/issues" target="_blank" rel="noopener">GitHub の issues</a></li>
+    </ul>
+
+    <div class="tip">
+      迷ったら、Claude 自身に <strong>「Claude Code のフックの使い方を教えて」</strong> のように聞いてみるのが早いです。
+      Claude Code に関する説明は Claude が一番よく知っています。
+    </div>
+
+    <h2>このサイトのまとめ</h2>
+    <ul>
+      <li>Claude Code はターミナルで動く AI コーディングアシスタント</li>
+      <li>ファイル読み書き・コマンド実行を「お願いベース」で進められる</li>
+      <li>編集の前には必ず差分が出て、許可を求められる (安全)</li>
+      <li>大きな仕事はプランモードから・区切りで <code>/clear</code>・困ったら <code>/help</code></li>
+      <li>もっと深く使うなら IDE 連携・サブエージェント・MCP・フック・スキル</li>
+    </ul>
+
+    <p>
+      ここまで読んでくれてありがとうございました。
+      あとは実際に Claude Code を起動して、何でもいいので頼んでみてください。
+      触ってみるのが一番の上達の近道です。
+    </p>
+
+    <div class="step-nav">
+      <a href="14-tips.html">
+        <span class="nav-label">← 前のステップ</span>
+        <span class="nav-title">STEP 14: 上手に使うコツ</span>
+      </a>
+      <a class="next" href="../glossary/index.html">
+        <span class="nav-label">用語集 →</span>
+        <span class="nav-title">REFERENCE</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

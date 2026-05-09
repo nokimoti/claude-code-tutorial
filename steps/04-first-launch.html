@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 04: はじめての起動 - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 04</div>
+    <h1>はじめての起動</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li>練習用のフォルダを作って Claude Code を起動できる</li>
+        <li>初回ログインを完了して、プロンプトの入力欄が表示されるところまでたどり着く</li>
+      </ul>
+    </div>
+
+    <h2>1. 練習用のフォルダを作る</h2>
+    <p>
+      Claude Code は <strong>「いま自分がいるフォルダ」を作業対象にする</strong> 道具です。
+      この「いるフォルダ」のことを <a class="term" href="../glossary/working-directory.html">ワーキングディレクトリ</a> といいます。
+    </p>
+    <p>
+      まずは練習用に空のフォルダを作りましょう。デスクトップやドキュメントの中など、好きな場所で構いません。
+    </p>
+<pre><code>mkdir claude-test
+cd claude-test</code></pre>
+    <p>
+      <code>mkdir</code> はフォルダを作るコマンド、<code>cd</code> はそのフォルダの中に移動するコマンドです。
+    </p>
+
+    <h2>2. <code>claude</code> と打つだけ</h2>
+    <p>
+      その状態で次のコマンドを打ちます。
+    </p>
+<pre><code>claude</code></pre>
+    <p>
+      これだけで Claude Code が起動します。初回起動時は、ターミナルにカラフルなロゴと
+      「Welcome」のメッセージが出るはずです。
+    </p>
+
+    <h2>3. 初回はログインが必要</h2>
+    <p>
+      最初の 1 回だけ、Anthropic アカウントとの紐付けが必要です。
+      画面の指示に従って、次のどちらかを選びます。
+    </p>
+    <ul>
+      <li><strong>Claude アカウントでログイン</strong> — Pro / Max プランの方はこちら。ブラウザが開いて、claude.ai のログイン画面に飛びます。</li>
+      <li><strong><a class="term" href="../glossary/api-key.html">API キー</a> を入力</strong> — 従量課金で使う方はこちら。</li>
+    </ul>
+    <p>
+      ブラウザでログインすると、自動でターミナルに戻り「ログインに成功しました」と表示されます。
+    </p>
+
+    <h2>4. 入力欄が出ればOK</h2>
+    <p>
+      ログインが終わると、こんな感じの入力欄が画面の下に表示されます。
+    </p>
+<pre><code>&gt; Try "How does this codebase work?"
+  ────────────────────────────────────</code></pre>
+    <p>
+      ここにキーボードから日本語や英語を入力すると、Claude Code に伝わります。
+      これで <a class="term" href="../glossary/session.html">セッション</a> がスタートしました。
+    </p>
+
+    <h2>終了するには</h2>
+    <p>
+      終了したいときは、入力欄に <code>/exit</code> と打つか、<code>Ctrl + C</code> を 2 回押します。
+      これで元のターミナルに戻ります。
+    </p>
+
+    <div class="tip">
+      終了しても会話の内容は記録されています。STEP 13 で「続きから再開する」やり方を学びます。
+    </div>
+
+    <h2>このステップのまとめ</h2>
+    <ul>
+      <li>作業したいフォルダに <code>cd</code> で移動する</li>
+      <li><code>claude</code> と打つだけで起動する</li>
+      <li>初回はログイン or API キーを聞かれる</li>
+      <li>入力欄が出たら準備完了 — 次は実際に話しかけます</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="03-install.html">
+        <span class="nav-label">← 前のステップ</span>
+        <span class="nav-title">STEP 03: インストール</span>
+      </a>
+      <a class="next" href="05-first-conversation.html">
+        <span class="nav-label">次のステップ →</span>
+        <span class="nav-title">STEP 05: はじめての会話</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

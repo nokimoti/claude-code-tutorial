@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 12: 計画モード - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 12</div>
+    <h1>計画モードで失敗しない</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li><a class="term" href="../glossary/plan-mode.html">プランモード</a> の使いどころを理解する</li>
+        <li>「いきなり書かせない」習慣をつける</li>
+      </ul>
+    </div>
+
+    <h2>大きな作業ほど、いきなり始めない</h2>
+    <p>
+      「ログイン機能を追加して」のような大きなお願いをすると、
+      Claude は勢いよくファイル編集を始めてしまうことがあります。
+      でも、そもそもの方針が違っていたら、せっかく書いてもらったコードを丸ごと捨てることに。
+    </p>
+    <p>
+      そんなときに使うのが <a class="term" href="../glossary/plan-mode.html">プランモード</a> です。
+    </p>
+
+    <h2>プランモードとは</h2>
+    <p>
+      プランモードでは、Claude は <strong>調査・読み取りだけ</strong> しかできません。
+      ファイル編集もコマンド実行もできない代わりに、
+      「こういう手順で進めようと思います」と <strong>計画書だけを返してくれる</strong> モードです。
+    </p>
+
+    <h2>入り方</h2>
+    <p>
+      入力欄で <code>Shift + Tab</code> を押すと、画面下のモード表示が切り替わります。
+      「<code>plan mode on</code>」と出ればプランモードに入っています。
+    </p>
+<pre><code>⏵⏵ plan mode on (shift+tab to cycle)</code></pre>
+    <p>
+      この状態でやりたいことを伝えると、こんな計画が返ってきます。
+    </p>
+<pre><code>● Plan
+  1. src/auth/ ディレクトリを新規作成
+  2. login.ts、logout.ts、middleware.ts を実装
+  3. routes/index.ts に /login と /logout を追加
+  4. tests/auth.test.ts でテストケースを書く
+  5. README に認証フローの説明を追記
+
+  この計画で進めてよいですか?
+  ❯ 1. Yes, and execute (この計画で実装に進む)
+    2. No, keep planning (もっと詰める)</code></pre>
+
+    <h2>計画を読んで「ここがおかしい」と言える</h2>
+    <p>
+      プランモードの真価は、ここで <strong>修正の指示が出せる</strong> ことです。
+    </p>
+    <ul>
+      <li>「ステップ 4 のテストは Vitest じゃなくて Jest で」</li>
+      <li>「middleware は既存の <code>src/middleware/</code> に置いて」</li>
+      <li>「README は今回はいらない」</li>
+    </ul>
+    <p>
+      実装に入る前なら、方針の修正コストはほぼゼロです。
+      実装後に同じ修正をしようとすると、コードを丸ごと書き直しになります。
+    </p>
+
+    <h2>こんなときに特に有効</h2>
+    <ul>
+      <li><strong>初めて触るコードベース</strong> — Claude にまず全体像を把握させたい</li>
+      <li><strong>複数ファイルにまたがる変更</strong> — どこに何を書くかの全体像を見たい</li>
+      <li><strong>外部に影響する変更</strong> — DB マイグレーション、API 仕様変更など</li>
+      <li><strong>本番環境に近い場所での作業</strong> — とにかく止めて確認したい</li>
+    </ul>
+
+    <h2>逆にプランモードがいらない場面</h2>
+    <ul>
+      <li>1 ファイルの小さな修正 (typo、コメント追加など)</li>
+      <li>テストを 1 個だけ追加するなど、影響範囲が明らか</li>
+      <li>とにかく試行錯誤して感触を見たいとき</li>
+    </ul>
+
+    <div class="tip">
+      慣れるまでは「迷ったらプランモード」が安全です。
+      時間のかかる作業ほど、計画を見るだけで節約できる時間が大きくなります。
+    </div>
+
+    <h2>このステップのまとめ</h2>
+    <ul>
+      <li><a class="term" href="../glossary/plan-mode.html">プランモード</a> は調査だけして計画書を返すモード</li>
+      <li><code>Shift + Tab</code> で切り替え</li>
+      <li>大きな変更ほど、計画を見てから実装に進むと安全</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="11-claude-md.html">
+        <span class="nav-label">← 前のステップ</span>
+        <span class="nav-title">STEP 11: CLAUDE.md</span>
+      </a>
+      <a class="next" href="13-resume.html">
+        <span class="nav-label">次のステップ →</span>
+        <span class="nav-title">STEP 13: 続きから始める</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 10: スラッシュコマンド - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 10</div>
+    <h1>スラッシュコマンド</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li>覚えておくと便利な <a class="term" href="../glossary/slash-command.html">スラッシュコマンド</a> を 5 つ覚える</li>
+        <li>自分でカスタムスラッシュコマンドを作れることを知る</li>
+      </ul>
+    </div>
+
+    <h2>「<a class="term" href="../glossary/slash-command.html">スラッシュコマンド</a>」とは?</h2>
+    <p>
+      入力欄の先頭に <code>/</code> を打つと、Claude にではなく <strong>Claude Code 自体</strong> に対する命令を送れます。
+      これを <a class="term" href="../glossary/slash-command.html">スラッシュコマンド</a> といいます。
+      入力中に候補メニューが出るので、矢印キーで選んで Enter で実行できます。
+    </p>
+
+    <h2>覚えておきたい 5 つ</h2>
+
+    <h3>1. <code>/help</code> — 困ったらまずこれ</h3>
+    <p>
+      使えるコマンド一覧が表示されます。新しい機能が増えていることがあるので、
+      時々眺めてみると発見があります。
+    </p>
+
+    <h3>2. <code>/clear</code> — 会話をリセット</h3>
+    <p>
+      これまでの会話履歴をすべて忘れさせて、まっさらな状態にします。
+      話題が大きく変わったときに使うと、<a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> を節約できて便利です。
+    </p>
+    <div class="tip">
+      話題が変わるたびに <code>/clear</code> する習慣をつけると、料金もパフォーマンスもよくなります。
+    </div>
+
+    <h3>3. <code>/init</code> — プロジェクトを Claude に把握させる</h3>
+    <p>
+      プロジェクトのフォルダ構成・使っている言語・テストの動かし方などを Claude が調べて、
+      <a class="term" href="../glossary/claude-md.html">CLAUDE.md</a> という覚書ファイルを作ってくれます。
+      新しいプロジェクトで Claude Code を初めて使うときの最初の一手です (詳しくは STEP 11)。
+    </p>
+
+    <h3>4. <code>/exit</code> — 終了</h3>
+    <p>
+      セッションを終了します。<code>Ctrl + C</code> を 2 回押すのと同じ効果です。
+    </p>
+
+    <h3>5. <code>/permissions</code> — 許可状況を確認</h3>
+    <p>
+      いま設定されている許可ルールを一覧で表示します。
+      「あれ?なんでこのコマンドが自動で通るんだっけ?」と思ったときの確認に。
+    </p>
+
+    <h2>その他のよく使うもの</h2>
+    <ul>
+      <li><code>/model</code> — 使う AI モデルを切り替え (Sonnet ⇄ Opus など)</li>
+      <li><code>/login</code> / <code>/logout</code> — Claude アカウントの再認証</li>
+      <li><code>/status</code> — 現在の設定や接続状況を表示</li>
+      <li><code>/agents</code> — <a class="term" href="../glossary/subagent.html">サブエージェント</a> の管理</li>
+      <li><code>/mcp</code> — <a class="term" href="../glossary/mcp.html">MCP</a> サーバーの管理</li>
+      <li><code>/config</code> — 設定画面を開く</li>
+      <li><code>/review</code> — 現在の変更をレビュー</li>
+    </ul>
+
+    <h2>自分で作れる「カスタムスラッシュコマンド」</h2>
+    <p>
+      よく使うプロンプトをスラッシュコマンドとして登録できます。
+      たとえば <code>.claude/commands/test.md</code> という Markdown ファイルを作って、
+      中身に
+    </p>
+<pre><code>テストを実行して、失敗しているテストがあれば
+原因と修正方針を教えてください。</code></pre>
+    <p>
+      と書いておくと、入力欄で <code>/test</code> と打つだけでこの依頼が送れるようになります。
+    </p>
+
+    <div class="note">
+      コマンドファイルの中で <code>$ARGUMENTS</code> という記号を書くと、引数を受け取れます。
+      <code>/translate 英語</code> のような使い方もできます。
+    </div>
+
+    <h2>このステップのまとめ</h2>
+    <ul>
+      <li>入力欄で <code>/</code> から始めると <a class="term" href="../glossary/slash-command.html">スラッシュコマンド</a></li>
+      <li>まずは <code>/help</code> <code>/clear</code> <code>/init</code> <code>/exit</code> <code>/permissions</code> を覚える</li>
+      <li>よく使うプロンプトはカスタムコマンドにして再利用できる</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="09-permission.html">
+        <span class="nav-label">← 前のステップ</span>
+        <span class="nav-title">STEP 09: 許可の仕組み</span>
+      </a>
+      <a class="next" href="11-claude-md.html">
+        <span class="nav-label">次のステップ →</span>
+        <span class="nav-title">STEP 11: CLAUDE.md</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 01: Claude Codeとは何か - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 01</div>
+    <h1>Claude Codeとは何か</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li>Claude Code が「何をしてくれる道具なのか」をイメージできる</li>
+        <li>ブラウザ版の Claude (claude.ai) との違いを理解する</li>
+      </ul>
+    </div>
+
+    <h2>Claude Code は「ターミナルで動く AI ペアプログラマ」</h2>
+    <p>
+      Claude Code は、<a class="term" href="../glossary/anthropic.html">Anthropic</a> 社が提供する、
+      <a class="term" href="../glossary/terminal.html">ターミナル</a> 上で動く AI コーディングアシスタントです。
+      自然な日本語(または英語)で指示するだけで、あなたのパソコンの中で
+      コードを読んだり、書いたり、コマンドを実行したりしてくれます。
+    </p>
+    <p>
+      たとえば、こんな経験はありませんか?
+    </p>
+    <ul>
+      <li>「このバグの原因がどこにあるのか、ファイルを開いて探すのが大変」</li>
+      <li>「同じような修正を 20 ファイルに繰り返したくない」</li>
+      <li>「テストの書き方がわからないから、まず雛形だけ作ってほしい」</li>
+      <li>「動かないエラーメッセージをそのまま渡して、原因を一緒に考えてほしい」</li>
+    </ul>
+    <p>
+      Claude Code は、こうした作業を「お願いベース」で進められる道具です。
+    </p>
+
+    <h2>具体的に何ができる?</h2>
+    <ol>
+      <li><strong>ファイルを読む</strong> — 「このプロジェクトの構造を教えて」と聞ける</li>
+      <li><strong>ファイルを編集する</strong> — 「この関数のバグを直して」とお願いできる</li>
+      <li><strong>コマンドを実行する</strong> — 「テストを走らせて結果を見て」と頼める</li>
+      <li><strong>調べてくれる</strong> — Web から情報を取ってきてもらえる</li>
+      <li><strong>計画を立ててくれる</strong> — いきなり書き始める前に、手順を提示してくれる</li>
+    </ol>
+
+    <h2>ブラウザ版 Claude との違い</h2>
+    <p>
+      ブラウザの <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> でも会話できますが、
+      Claude Code には大きな違いがあります。
+    </p>
+    <table>
+      <thead>
+        <tr><th>項目</th><th>claude.ai (ブラウザ)</th><th>Claude Code (ターミナル)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>動く場所</td><td>ブラウザの中</td><td>あなたのパソコンの中</td></tr>
+        <tr><td>ファイル操作</td><td>アップロードして読ませる</td><td>直接読み書きできる</td></tr>
+        <tr><td>コマンド実行</td><td>できない</td><td>できる (許可制)</td></tr>
+        <tr><td>得意なこと</td><td>会話・文章生成</td><td>コード作業・自動化</td></tr>
+      </tbody>
+    </table>
+
+    <h2>「<a class="term" href="../glossary/cli.html">CLI</a>」と聞いて怖がらなくて大丈夫</h2>
+    <p>
+      Claude Code は <a class="term" href="../glossary/cli.html">CLI ツール</a> なので、
+      操作はすべて <a class="term" href="../glossary/terminal.html">ターミナル</a> から行います。
+      でも、難しいコマンドを覚える必要はありません。
+      起動したあとは、人と話すように <strong>日本語で指示するだけ</strong> です。
+    </p>
+
+    <div class="note">
+      Claude Code 自体が「あなたの代わりにコマンドを打つ存在」なので、
+      むしろあなたはコマンドを覚えなくてよくなる、という逆転現象が起きます。
+    </div>
+
+    <h2>このステップのまとめ</h2>
+    <ul>
+      <li>Claude Code は <a class="term" href="../glossary/anthropic.html">Anthropic</a> 製の AI コーディングアシスタント</li>
+      <li><a class="term" href="../glossary/terminal.html">ターミナル</a> から起動する <a class="term" href="../glossary/cli.html">CLI</a> ツール</li>
+      <li>ファイルを読む・書く・コマンドを実行することができる</li>
+      <li>操作は基本的に「日本語で話しかけるだけ」で OK</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="../index.html">
+        <span class="nav-label">← トップページ</span>
+        <span class="nav-title">Claude Code はじめの一歩</span>
+      </a>
+      <a class="next" href="02-prerequisites.html">
+        <span class="nav-label">次のステップ →</span>
+        <span class="nav-title">STEP 02: 用意するもの</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

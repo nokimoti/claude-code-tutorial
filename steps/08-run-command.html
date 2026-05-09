@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 08: コマンドを実行させる - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 08</div>
+    <h1>コマンドを実行させる</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li>Claude にシェルコマンドを実行してもらう体験をする</li>
+        <li>「テストを走らせる」「ビルドする」などの作業を任せられるイメージを持つ</li>
+      </ul>
+    </div>
+
+    <h2>「実行して」と頼むだけ</h2>
+    <p>
+      STEP 07 で <code>hello.py</code> を作ったなら、こう頼んでみましょう。
+    </p>
+<pre><code>&gt; hello.py を実行して結果を見せて</code></pre>
+    <p>
+      Claude は次のようなコマンド実行を提案してきます。
+    </p>
+<pre><code>● Bash(python hello.py)
+  ⎿  Hello, Claude!</code></pre>
+    <p>
+      <strong>Bash</strong> という <a class="term" href="../glossary/tool.html">ツール</a> が、シェルコマンドを実行するための手足です。
+      ここでも当然、最初の実行時には許可を求められます。
+    </p>
+
+    <h2>「<a class="term" href="../glossary/shell.html">シェル</a>」って何?</h2>
+    <p>
+      <a class="term" href="../glossary/shell.html">シェル</a> は <a class="term" href="../glossary/terminal.html">ターミナル</a> の中で動いている「コマンドを解釈する係」です。
+      OS によって標準のシェルが違います。
+    </p>
+    <ul>
+      <li><strong>Windows</strong>: PowerShell が標準</li>
+      <li><strong>macOS / Linux</strong>: bash または zsh</li>
+    </ul>
+    <p>
+      Claude Code は OS に合わせて適切なシェル文法でコマンドを組み立ててくれます。
+    </p>
+
+    <h2>こんなお願いができる</h2>
+    <ul>
+      <li>「テストを実行して、失敗しているところを教えて」</li>
+      <li>「<code>npm install</code> を実行してログを見せて」</li>
+      <li>「このフォルダの中で <code>TODO</code> という単語を含むファイルを探して」</li>
+      <li>「<code>git status</code> と <code>git log -5</code> を実行して、何が起きているか教えて」</li>
+    </ul>
+    <p>
+      Claude は結果を読んで <strong>意味を要約</strong> してくれるので、
+      長いログの中から本質を抜き出すのが得意です。
+    </p>
+
+    <h2>危険なコマンドには特に強い警告</h2>
+    <p>
+      <code>rm -rf</code> や <code>git push --force</code>、
+      パッケージのアンインストールなど、<strong>取り消しが難しいコマンド</strong> には
+      Claude Code が特別な警告を出します。
+    </p>
+    <div class="warning">
+      警告が出たら必ず立ち止まって読んでください。
+      「とりあえず Yes」を押し続けるとプロジェクトが壊れる可能性があります。
+    </div>
+
+    <h2>長く動くコマンドはバックグラウンドへ</h2>
+    <p>
+      <code>npm run dev</code> のような「ずっと動き続ける」コマンドは、
+      Claude が自動でバックグラウンド実行してくれます。
+      その間も会話は続けられ、必要に応じてログを覗いてくれます。
+    </p>
+
+    <h2>ネット接続が必要なコマンド</h2>
+    <p>
+      <code>npm install</code> や <code>git pull</code> のように外部ネットワークに繋ぎに行くコマンドも普通に実行できます。
+      ただし、企業ネットワークなどでプロキシ設定が必要な場合は、事前に環境を整えておきましょう。
+    </p>
+
+    <div class="tip">
+      コマンドの出力が長すぎるときは「結果を 30 行に絞って要約して」のように頼むと、
+      <a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> を節約できます。
+    </div>
+
+    <h2>このステップのまとめ</h2>
+    <ul>
+      <li>「実行して」と頼めば <strong>Bash</strong> ツールが動く</li>
+      <li>毎回許可を求められる (危険なコマンドは特に強く警告される)</li>
+      <li>テスト実行・ビルド・git 操作など、ターミナル作業の多くを任せられる</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="07-edit-files.html">
+        <span class="nav-label">← 前のステップ</span>
+        <span class="nav-title">STEP 07: ファイルを編集させる</span>
+      </a>
+      <a class="next" href="09-permission.html">
+        <span class="nav-label">次のステップ →</span>
+        <span class="nav-title">STEP 09: 許可の仕組み</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

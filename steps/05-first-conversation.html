@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 05: はじめての会話 - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 05</div>
+    <h1>はじめての会話</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li>Claude Code に話しかけて、最初の返事をもらう</li>
+        <li><a class="term" href="../glossary/prompt.html">プロンプト</a> という言葉の意味を理解する</li>
+      </ul>
+    </div>
+
+    <h2>まずは「こんにちは」から</h2>
+    <p>
+      入力欄に好きな言葉を打ってみましょう。日本語で大丈夫です。
+    </p>
+<pre><code>&gt; こんにちは。あなたは何ができますか?</code></pre>
+    <p>
+      <code>Enter</code> キーを押すと送信されます (改行したいときは <code>Shift + Enter</code>)。
+      数秒待つと、Claude が返事をしてくれます。
+    </p>
+
+    <h2>「<a class="term" href="../glossary/prompt.html">プロンプト</a>」とは</h2>
+    <p>
+      AI の世界では、ユーザーが AI に渡す <strong>指示文</strong> のことを
+      <a class="term" href="../glossary/prompt.html">プロンプト</a> と呼びます。
+      「こんにちは」も「ファイルを読んで」も、すべてプロンプトです。
+    </p>
+    <p>
+      Claude Code は <a class="term" href="../glossary/ai-model.html">AI モデル</a> である Claude にプロンプトを送り、
+      その返答をターミナルに表示する、というのが基本の仕組みです。
+    </p>
+
+    <h2>裏では何が起きているの?</h2>
+    <ol>
+      <li>あなたがプロンプトを入力する</li>
+      <li>Claude Code がそれを Anthropic のサーバーに送る</li>
+      <li>サーバー上の <a class="term" href="../glossary/ai-model.html">AI モデル</a> が考えて返事を生成する</li>
+      <li>その返事がターミナルに 1 文字ずつ流れてくる (これを「ストリーミング」と言います)</li>
+    </ol>
+
+    <h2>料金が気になる場合</h2>
+    <p>
+      <a class="term" href="../glossary/api-key.html">API キー</a> 利用の場合、入力と出力の文字数に応じて料金がかかります。
+      この単位を <a class="term" href="../glossary/token.html">トークン</a> と呼びます。
+      1 トークンはおおむね日本語で 1〜2 文字、英語で 0.75 単語くらいの感覚です。
+    </p>
+    <p>
+      Pro / Max プランでも「1 セッションあたり何トークンまで」という上限があり、これを超えると
+      しばらく使えなくなる時間帯があります (リセットは数時間ごと)。
+    </p>
+
+    <div class="note">
+      会話の量が増えてくると、過去のやり取りも毎回送信されるため、トークン消費量が膨らんでいきます。
+      区切りのいいところで <code>/clear</code> を打って会話をリセットすると節約になります (STEP 10 で詳しく)。
+    </div>
+
+    <h2>うまく返事をもらうコツ (今だけ簡単に)</h2>
+    <ul>
+      <li><strong>主語と目的をはっきり書く</strong> — 「直して」より「<code>app.js</code> の login 関数のバグを直して」</li>
+      <li><strong>制約を伝える</strong> — 「テストは壊さないで」「日本語でコメントを書いて」など</li>
+      <li><strong>長すぎない、短すぎない</strong> — 1〜3行程度で要点を伝える</li>
+    </ul>
+
+    <p>
+      コツについては STEP 14 でじっくり紹介します。
+    </p>
+
+    <h2>このステップのまとめ</h2>
+    <ul>
+      <li>入力欄に話しかけるだけで会話できる</li>
+      <li>AI に渡す指示文を <a class="term" href="../glossary/prompt.html">プロンプト</a> と呼ぶ</li>
+      <li>料金や利用上限は <a class="term" href="../glossary/token.html">トークン</a> で計算される</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="04-first-launch.html">
+        <span class="nav-label">← 前のステップ</span>
+        <span class="nav-title">STEP 04: はじめての起動</span>
+      </a>
+      <a class="next" href="06-ask-about-files.html">
+        <span class="nav-label">次のステップ →</span>
+        <span class="nav-title">STEP 06: ファイルを読ませる</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

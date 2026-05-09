@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サブエージェント - 用語集 - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list"><li><a href="index.html">用語集</a></li></ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">用語集</div>
+    <h1>サブエージェント (Sub-agent)</h1>
+
+    <div class="definition">
+      特定の役割や得意分野を持った <strong>Claude の分身</strong>。
+      メインの Claude が必要に応じて呼び出して、一部の仕事を任せます。
+    </div>
+
+    <h2>役割を分担できる</h2>
+    <p>
+      たとえば次のようなサブエージェントを作っておけます。
+    </p>
+    <ul>
+      <li><strong>code-reviewer</strong> — コードを読み、改善点を出すだけのレビュー専門</li>
+      <li><strong>test-runner</strong> — テストを実行して結果を整理する役</li>
+      <li><strong>doc-writer</strong> — README やコメントの整備担当</li>
+    </ul>
+    <p>
+      メインの Claude が「ここはレビュー専門に任せよう」と判断すると、
+      その役割のサブエージェントを呼び出します。サブエージェントには独立した
+      <a class="term" href="context-window.html">コンテキストウィンドウ</a> が与えられるので、
+      余計な履歴に邪魔されずに集中して仕事ができます。
+    </p>
+
+    <h2>定義場所</h2>
+    <p>
+      <code>.claude/agents/</code> フォルダに <a class="term" href="markdown.html">Markdown</a> ファイルとして書きます。
+      入力欄で <code>/agents</code> と打つと、新規作成や編集の UI が開きます。
+    </p>
+
+    <h2>関連ステップ</h2>
+    <ul>
+      <li><a href="../steps/15-next-step.html">STEP 15: 次の一歩</a></li>
+    </ul>
+
+    <p style="margin-top: 40px;"><a href="index.html">← 用語集に戻る</a></p>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

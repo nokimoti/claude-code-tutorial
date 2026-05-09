@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 13: 続きから始める - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 13</div>
+    <h1>続きから始める</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li>セッションを終わっても、続きから再開できることを知る</li>
+        <li>コンテキストを引き継ぐ / 新しく始める の使い分けがわかる</li>
+      </ul>
+    </div>
+
+    <h2>セッションは記録されている</h2>
+    <p>
+      Claude Code を <code>/exit</code> や <code>Ctrl+C</code> で終了しても、
+      会話の内容はあなたのパソコンに保存されています。
+      翌日でも 1 週間後でも、続きから再開することができます。
+    </p>
+
+    <h2>直前のセッションを再開する</h2>
+    <p>
+      ターミナルで Claude Code を起動するときに、<code>-c</code> オプションを付けます。
+    </p>
+<pre><code>claude -c</code></pre>
+    <p>
+      これで、そのフォルダで最後にやり取りしていた <a class="term" href="../glossary/session.html">セッション</a> がそのまま再開します。
+      「昨日の続きから」が一番早くできる方法です。
+    </p>
+
+    <h2>過去のセッションから選んで再開する</h2>
+    <p>
+      もう少し前のセッションに戻りたい場合は、<code>-r</code> または <code>--resume</code> を使います。
+    </p>
+<pre><code>claude --resume</code></pre>
+    <p>
+      過去のセッション一覧が表示され、矢印キーで選んで再開できます。
+      「先週やってた認証機能の続き」のような戻り方ができます。
+    </p>
+
+    <h2>新しい話題は <code>/clear</code></h2>
+    <p>
+      逆に、続けて使いたいけど話題は完全に変えたいときは、入力欄で
+    </p>
+<pre><code>/clear</code></pre>
+    <p>
+      と打ちます。
+      会話履歴がリセットされて、新しい会話として始まります。
+      <a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> が空に戻るので、料金もリセットされる感覚に近いです。
+    </p>
+
+    <h2>使い分け早見表</h2>
+    <table>
+      <thead>
+        <tr><th>状況</th><th>やること</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>昨日の続きから</td><td><code>claude -c</code></td></tr>
+        <tr><td>1 週間前のあの作業に戻る</td><td><code>claude --resume</code></td></tr>
+        <tr><td>同じプロジェクトで別の話題に切り替える</td><td><code>/clear</code></td></tr>
+        <tr><td>もう一度プロジェクトを認識し直したい</td><td><code>/clear</code> → CLAUDE.md は自動で読み直される</td></tr>
+      </tbody>
+    </table>
+
+    <h2>長すぎるセッションは「圧縮」もできる</h2>
+    <p>
+      セッションを続けすぎて <a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> が満杯になりかけると、
+      Claude Code は自動で過去のやり取りを要約 (圧縮) してくれます。
+      明示的に圧縮したいときは、入力欄で
+    </p>
+<pre><code>/compact</code></pre>
+    <p>
+      と打つと、いまの会話を要約して短くしてくれます。
+      長い対話の後半でも頭がさえた状態を保てます。
+    </p>
+
+    <div class="tip">
+      要約は「過去の事実」を保ったまま量を減らすので、結論や決定事項は残ります。
+      ただし細かい言い回しは消えるので、重要なやり取りは別ファイルにメモしておくと安心です。
+    </div>
+
+    <h2>このステップのまとめ</h2>
+    <ul>
+      <li><code>claude -c</code> で直前のセッションを再開</li>
+      <li><code>claude --resume</code> で過去のセッションから選んで再開</li>
+      <li>話題を変えるときは <code>/clear</code></li>
+      <li>会話が長くなったら <code>/compact</code> で圧縮</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="12-plan-mode.html">
+        <span class="nav-label">← 前のステップ</span>
+        <span class="nav-title">STEP 12: 計画モード</span>
+      </a>
+      <a class="next" href="14-tips.html">
+        <span class="nav-label">次のステップ →</span>
+        <span class="nav-title">STEP 14: 上手に使うコツ</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

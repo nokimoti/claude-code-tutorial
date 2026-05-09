@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 03: インストール - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 03</div>
+    <h1>インストール</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li>Claude Code を自分のパソコンにインストールする</li>
+        <li>インストールが成功したことを確認する</li>
+      </ul>
+    </div>
+
+    <h2>1コマンドで入ります</h2>
+    <p>
+      Claude Code のインストールは、<a class="term" href="../glossary/terminal.html">ターミナル</a> で次のコマンドを 1 行打つだけです。
+    </p>
+<pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
+    <p>
+      <code>npm</code> は <a class="term" href="../glossary/npm.html">npm</a> といって、
+      <a class="term" href="../glossary/node-js.html">Node.js</a> 用のパッケージ管理ツールです。
+      <code>-g</code> は「グローバル(=パソコン全体)にインストールする」という意味で、
+      これを付けるとどのフォルダからでも <code>claude</code> コマンドが使えるようになります。
+    </p>
+
+    <div class="note">
+      ダウンロードに数分かかります。途中で止まったように見えてもキャンセルせず待ちましょう。
+    </div>
+
+    <h2>うまく入ったか確認する</h2>
+    <p>
+      インストールが終わったら、ターミナルで次のコマンドを打ってみます。
+    </p>
+<pre><code>claude --version</code></pre>
+    <p>
+      <code>1.x.x (Claude Code)</code> のようなバージョンが表示されれば成功です。
+    </p>
+
+    <h2>うまくいかないときは</h2>
+    <h3>「command not found: npm」と出た</h3>
+    <p>
+      <a class="term" href="../glossary/node-js.html">Node.js</a> がまだ入っていない可能性が高いです。
+      STEP 02 に戻って Node.js をインストールしてから、もう一度試してください。
+    </p>
+    <h3>「Permission denied」「EACCES」と出た (macOS / Linux)</h3>
+    <p>
+      パソコンの設定によっては、グローバルインストールに管理者権限が必要なことがあります。
+      その場合は次のコマンドで <code>sudo</code> を付けて実行します。
+    </p>
+<pre><code>sudo npm install -g @anthropic-ai/claude-code</code></pre>
+
+    <h3>「claude: command not found」と出る (インストール直後)</h3>
+    <p>
+      ターミナルが古い情報のままになっていることがあります。
+      ターミナルを <strong>一度閉じて開き直して</strong> から、もう一度 <code>claude --version</code> を試してください。
+    </p>
+
+    <div class="warning">
+      Windows の場合、稀に PowerShell の「実行ポリシー」が厳しく設定されていて
+      <code>claude</code> が起動できないことがあります。
+      その場合は管理者として PowerShell を開き、
+      <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code> を実行してください。
+    </div>
+
+    <h2>アップデートのしかた (将来の参考に)</h2>
+    <p>
+      Claude Code は頻繁に新機能が追加されます。最新版に上げるには、
+      同じく <code>npm</code> で次のコマンドを打ちます。
+    </p>
+<pre><code>npm update -g @anthropic-ai/claude-code</code></pre>
+    <p>
+      また、Claude Code 自身が新しいバージョンを検知すると、起動時に「アップデートがあります」と教えてくれます。
+    </p>
+
+    <h2>このステップのまとめ</h2>
+    <ul>
+      <li>インストールは <code>npm install -g @anthropic-ai/claude-code</code> の 1 行で完結</li>
+      <li>確認は <code>claude --version</code></li>
+      <li>うまくいかないときは Node.js が入っているか・ターミナルを再起動したかを確認</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="02-prerequisites.html">
+        <span class="nav-label">← 前のステップ</span>
+        <span class="nav-title">STEP 02: 用意するもの</span>
+      </a>
+      <a class="next" href="04-first-launch.html">
+        <span class="nav-label">次のステップ →</span>
+        <span class="nav-title">STEP 04: はじめての起動</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

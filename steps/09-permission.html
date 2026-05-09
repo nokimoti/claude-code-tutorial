@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 09: 許可の仕組み - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 09</div>
+    <h1>許可の仕組み</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li>4 つの <a class="term" href="../glossary/permission-mode.html">許可モード</a> の違いを把握する</li>
+        <li>自分の用途に合った安全レベルを選べるようになる</li>
+      </ul>
+    </div>
+
+    <h2>許可は「まとめて」設定もできる</h2>
+    <p>
+      STEP 07・08 で、ファイル編集やコマンド実行のたびに「Yes / No」を聞かれることを見ました。
+      でも、毎回押すのが面倒なときもあります。
+      Claude Code には、<strong>4 段階の <a class="term" href="../glossary/permission-mode.html">許可モード</a></strong> が用意されています。
+    </p>
+
+    <h2>4 つのモード</h2>
+    <table>
+      <thead>
+        <tr><th>モード</th><th>動き</th><th>向いている用途</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Default</strong> (標準)</td>
+          <td>編集・コマンド実行のたびに確認</td>
+          <td>慣れないうち、本番環境</td>
+        </tr>
+        <tr>
+          <td><strong>Plan</strong> (計画)</td>
+          <td>調査・読み取りのみ。一切書き換えない</td>
+          <td>方針を相談したいとき (STEP 12 で詳しく)</td>
+        </tr>
+        <tr>
+          <td><strong>Accept Edits</strong></td>
+          <td>ファイル編集は自動許可、コマンド実行は確認</td>
+          <td>大量に編集が続くと分かっているとき</td>
+        </tr>
+        <tr>
+          <td><strong>Bypass</strong> (危険)</td>
+          <td>すべて確認なし</td>
+          <td>使い捨ての環境、隔離されたコンテナ内</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>切り替え方</h2>
+    <p>
+      入力欄で <code>Shift + Tab</code> を押すと、4 つのモードを順番に切り替えられます。
+      画面の下にいま選んでいるモードが表示されているはずです。
+    </p>
+<pre><code>⏵⏵ accept edits on (shift+tab to cycle)</code></pre>
+
+    <h2>細かい許可ルールは <a class="term" href="../glossary/settings-json.html">settings.json</a> で</h2>
+    <p>
+      「<code>npm install</code> はいつも許可」「<code>rm</code> は絶対に許可しない」のように、
+      コマンド単位で細かい許可ルールを書きたい場合は、
+      <a class="term" href="../glossary/settings-json.html">settings.json</a> という設定ファイルを使います。
+    </p>
+    <p>
+      設定の優先順位はこの順:
+    </p>
+    <ol>
+      <li>プロジェクトの <code>.claude/settings.local.json</code> (自分専用)</li>
+      <li>プロジェクトの <code>.claude/settings.json</code> (チーム共有)</li>
+      <li>ユーザーの <code>~/.claude/settings.json</code> (パソコン全体)</li>
+    </ol>
+    <p>
+      たとえばこんなふうに書きます。
+    </p>
+<pre><code>{
+  "permissions": {
+    "allow": [
+      "Bash(npm test:*)",
+      "Bash(git status)",
+      "Read(*)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)"
+    ]
+  }
+}</code></pre>
+
+    <h2>「Bypass」モードの注意</h2>
+    <div class="warning">
+      Bypass モード (<code>--dangerously-skip-permissions</code>) は強力ですが、
+      Claude が予期しないコマンドを実行しても止められません。
+      <strong>本番環境やメインの作業フォルダでは絶対に使わないでください。</strong>
+      使うなら Docker コンテナや使い捨ての VM の中だけに限定しましょう。
+    </div>
+
+    <h2>慣れるまでの推奨設定</h2>
+    <ol>
+      <li>最初の数日は <strong>Default モード</strong> のままで使う</li>
+      <li>毎回 1.Yes を押して、何が起きているか観察する</li>
+      <li>慣れてきたら <strong>Accept Edits</strong> に切り替えてみる</li>
+      <li>頻繁に許可するコマンド (<code>git status</code> など) は <a class="term" href="../glossary/settings-json.html">settings.json</a> に登録する</li>
+    </ol>
+
+    <div class="tip">
+      入力欄で <code>/permissions</code> と打つと、いま許可されている操作と禁止されている操作の一覧が表示されます。
+    </div>
+
+    <h2>このステップのまとめ</h2>
+    <ul>
+      <li>許可モードは <strong>Default / Plan / Accept Edits / Bypass</strong> の 4 段階</li>
+      <li><code>Shift + Tab</code> で切り替えられる</li>
+      <li>細かいルールは <a class="term" href="../glossary/settings-json.html">settings.json</a> で書ける</li>
+      <li>Bypass は必要なときだけ、隔離された環境でだけ使う</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="08-run-command.html">
+        <span class="nav-label">← 前のステップ</span>
+        <span class="nav-title">STEP 08: コマンドを実行させる</span>
+      </a>
+      <a class="next" href="10-slash-commands.html">
+        <span class="nav-label">次のステップ →</span>
+        <span class="nav-title">STEP 10: スラッシュコマンド</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

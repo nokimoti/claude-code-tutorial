@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 06: ファイルを読ませる - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 06</div>
+    <h1>ファイルを読ませる</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li>Claude にローカルのファイルを読ませて、内容について質問できる</li>
+        <li>「<a class="term" href="../glossary/tool.html">ツール</a>」という考え方を理解する</li>
+      </ul>
+    </div>
+
+    <h2>練習用のファイルを置いてみる</h2>
+    <p>
+      STEP 04 で作った <code>claude-test</code> フォルダの中に、適当なテキストファイルを置きましょう。
+      以下のような <code>memo.txt</code> を用意してみてください。
+    </p>
+<pre><code>memo.txt:
+今日の買い物リスト
+- りんご 3個
+- 牛乳 1本
+- パン 2斤</code></pre>
+
+    <h2>そのまま聞いてみる</h2>
+    <p>
+      Claude Code を起動した状態で、こんなふうに頼んでみます。
+    </p>
+<pre><code>&gt; memo.txt の中身を読んで、買い物リストを箇条書きで教えて</code></pre>
+    <p>
+      画面にこういうメッセージが流れるはずです。
+    </p>
+<pre><code>● Read(memo.txt)
+  ⎿  Read 4 lines
+
+  はい、読みました。買い物リストは以下のとおりです:
+  - りんご 3個
+  - 牛乳 1本
+  - パン 2斤</code></pre>
+
+    <h2>「<a class="term" href="../glossary/tool.html">ツール</a>」が裏で動いている</h2>
+    <p>
+      <code>● Read(memo.txt)</code> という表示に注目してください。
+      これは「Claude が <strong>Read という <a class="term" href="../glossary/tool.html">ツール</a></strong> を使ってファイルを読んだ」という意味です。
+    </p>
+    <p>
+      Claude 自体は、頭の中で考えて文章を返すだけの存在です。
+      でもファイルを読んだりコマンドを実行したりする「手足」として、いくつかの <a class="term" href="../glossary/tool.html">ツール</a> が用意されています。
+    </p>
+    <ul>
+      <li><strong>Read</strong> — ファイルの中身を読む</li>
+      <li><strong>Edit</strong> — ファイルの一部を書き換える</li>
+      <li><strong>Write</strong> — ファイルを新しく書く / 上書きする</li>
+      <li><strong>Bash</strong> — シェルのコマンドを実行する</li>
+      <li><strong>Glob</strong> / <strong>Grep</strong> — ファイル名や中身を検索する</li>
+    </ul>
+    <p>
+      Claude はあなたのお願いを聞いて、必要なツールを自分で選んで使います。
+    </p>
+
+    <h2>ファイル名の渡し方いろいろ</h2>
+    <p>
+      ファイルを読ませる方法はいくつかあります。
+    </p>
+    <ol>
+      <li><strong>ファイル名をそのまま書く</strong> — 「memo.txt を見て」</li>
+      <li><strong>パスを書く</strong> — 「<code>./docs/spec.md</code> を要約して」</li>
+      <li><strong>@ 記号で添付する</strong> — 入力中に <code>@</code> を打つとファイル選択メニューが出ます</li>
+      <li><strong>「このファイル」と書く</strong> — 直前の文脈にあるファイルを指す</li>
+    </ol>
+
+    <h2>大きすぎるファイルには注意</h2>
+    <p>
+      Claude が一度に読み込める量には限界があります。これを <a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> と呼びます。
+      数万行を超える巨大なログファイルなどは、一度に全部読ませると失敗することがあります。
+    </p>
+    <p>
+      その場合は「最初の 200 行だけ見て」「エラー部分だけ抜粋して読んで」のように、
+      範囲を絞って依頼するとうまくいきます。
+    </p>
+
+    <div class="tip">
+      フォルダ全体について聞きたいときは「このプロジェクトの構造を教えて」と聞いてみると、
+      Claude が自動でファイル一覧を見て、概要をまとめてくれます。
+    </div>
+
+    <h2>このステップのまとめ</h2>
+    <ul>
+      <li>ファイル名を伝えるだけで Claude が読んでくれる</li>
+      <li>裏では <strong>Read</strong> という <a class="term" href="../glossary/tool.html">ツール</a> が動いている</li>
+      <li>大きなファイルは <a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> の制限に注意</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="05-first-conversation.html">
+        <span class="nav-label">← 前のステップ</span>
+        <span class="nav-title">STEP 05: はじめての会話</span>
+      </a>
+      <a class="next" href="07-edit-files.html">
+        <span class="nav-label">次のステップ →</span>
+        <span class="nav-title">STEP 07: ファイルを編集させる</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

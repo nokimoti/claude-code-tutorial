@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 11: CLAUDE.md - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 11</div>
+    <h1>CLAUDE.md でプロジェクトを覚えてもらう</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li><a class="term" href="../glossary/claude-md.html">CLAUDE.md</a> の役割を理解する</li>
+        <li><code>/init</code> で自動生成、または自分で書いて Claude に常時参照させる</li>
+      </ul>
+    </div>
+
+    <h2>毎回同じ説明をするのは疲れる</h2>
+    <p>
+      Claude Code を起動するたびに「このプロジェクトでは TypeScript を使ってます」「テストは <code>npm test</code> で動きます」
+      「コミットメッセージは英語で書いてください」…と毎回伝えるのは大変です。
+    </p>
+    <p>
+      そんなときに使うのが <a class="term" href="../glossary/claude-md.html">CLAUDE.md</a> という特別なファイルです。
+    </p>
+
+    <h2>CLAUDE.md とは</h2>
+    <p>
+      プロジェクトのルートに <code>CLAUDE.md</code> という名前のファイルを置いておくと、
+      Claude Code は <strong>セッション開始時に必ず読み込んで</strong>、その内容を踏まえて応答します。
+      <a class="term" href="../glossary/markdown.html">Markdown</a> 形式で書ける、Claude 専用の指示書です。
+    </p>
+
+    <h2>自動で作ってもらう</h2>
+    <p>
+      新しいプロジェクトで使うときは、まず入力欄でこう打ちます。
+    </p>
+<pre><code>/init</code></pre>
+    <p>
+      Claude が自動でプロジェクト構造を分析して、CLAUDE.md の雛形を提案してくれます。
+      内容を確認して、Yes を押せば作成完了です。
+    </p>
+
+    <h2>自分で書く場合のサンプル</h2>
+    <p>
+      手書きする場合は、こんな内容を書いておくと便利です。
+    </p>
+<pre><code># プロジェクト概要
+社内向けタスク管理アプリのバックエンド。
+
+# 使っている技術
+- 言語: TypeScript (Node.js 20)
+- フレームワーク: Express
+- DB: PostgreSQL
+- テスト: Vitest
+
+# よく使うコマンド
+- 開発サーバ起動: `npm run dev`
+- テスト実行: `npm test`
+- 型チェック: `npm run typecheck`
+
+# コーディングルール
+- セミコロンは付ける
+- インポートは絶対パスではなく相対パスを使う
+- 関数の説明コメントは原則書かない (型と関数名で伝える)
+
+# Claude へのお願い
+- ファイル編集前にテストの内容も確認してください
+- console.log を残したままにしないでください
+- 大きな変更は計画モードで提案してから進めてください</code></pre>
+
+    <h2>2 種類の CLAUDE.md</h2>
+    <ul>
+      <li>
+        <strong>プロジェクト用</strong> = <code>./CLAUDE.md</code> (リポジトリのルート)<br>
+        そのプロジェクトを触る人全員に効きます。Git にコミットします。
+      </li>
+      <li>
+        <strong>個人用</strong> = <code>~/.claude/CLAUDE.md</code> (ホームディレクトリ)<br>
+        自分のパソコンでだけ効く。「日本語で答えて」など個人の好みを書きます。
+      </li>
+    </ul>
+
+    <h2>編集したらすぐ反映される?</h2>
+    <p>
+      CLAUDE.md を編集しても、実行中のセッションには反映されません。
+      <code>/clear</code> で会話をリセットするか、Claude Code を再起動すると、新しい CLAUDE.md が読み込まれます。
+    </p>
+
+    <div class="tip">
+      入力欄で <code>#</code> から始めて何か書くと、それが CLAUDE.md に追記されます。
+      「いま気づいた注意点を残しておく」のに便利です。
+    </div>
+
+    <h2>長すぎる CLAUDE.md は逆効果</h2>
+    <p>
+      毎回読み込まれる = 毎回 <a class="term" href="../glossary/token.html">トークン</a> を消費する、ということです。
+      数千行の長文を書くと、セッションのスタート時点で大量のコンテキストを食ってしまいます。
+    </p>
+    <div class="warning">
+      長くなりそうなら、参照用ドキュメントを別ファイルに分けて、CLAUDE.md からは
+      「詳細は <code>docs/architecture.md</code> を参照」のようにリンクで指すのがおすすめです。
+    </div>
+
+    <h2>このステップのまとめ</h2>
+    <ul>
+      <li><a class="term" href="../glossary/claude-md.html">CLAUDE.md</a> はプロジェクト固有の指示書</li>
+      <li><code>/init</code> で自動生成できる</li>
+      <li>プロジェクト用とユーザー個人用の 2 種類がある</li>
+      <li>長すぎると逆効果。要点だけ書く</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="10-slash-commands.html">
+        <span class="nav-label">← 前のステップ</span>
+        <span class="nav-title">STEP 10: スラッシュコマンド</span>
+      </a>
+      <a class="next" href="12-plan-mode.html">
+        <span class="nav-label">次のステップ →</span>
+        <span class="nav-title">STEP 12: 計画モード</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

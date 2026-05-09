@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP 14: 上手に使うコツ - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">STEP 14</div>
+    <h1>上手に使うコツ</h1>
+
+    <div class="goal-box">
+      <h2>このステップのゴール</h2>
+      <ul>
+        <li>毎日使うときの「効きやすいクセ」を 6 つ覚える</li>
+      </ul>
+    </div>
+
+    <h2>1. 主語と目的を必ず書く</h2>
+    <p>
+      「直して」だけだと、Claude はどこを直すか推測するしかありません。
+      ファイル名・関数名・症状をセットで伝えると一発で当たります。
+    </p>
+    <ul>
+      <li>❌ 「ログインがおかしいから直して」</li>
+      <li>✅ 「<code>src/auth/login.ts</code> の <code>verifyPassword</code> 関数で、空文字列が通ってしまうバグを直して」</li>
+    </ul>
+
+    <h2>2. 大きな仕事は <a class="term" href="../glossary/plan-mode.html">プランモード</a> で始める</h2>
+    <p>
+      STEP 12 の繰り返しになりますが、これが効果が一番大きいクセです。
+      新しい機能を追加するとき、複数ファイルにまたがる変更をするときは、
+      まず <code>Shift + Tab</code> でプランモードに入って計画を見るところから始めてください。
+    </p>
+
+    <h2>3. 「テストを書いて、実行して、結果を教えて」とセットで頼む</h2>
+    <p>
+      実装と検証を 1 つのお願いに含めると、Claude が <strong>自分で結果を確認して直してくれる</strong> ループに入ります。
+    </p>
+<pre><code>&gt; この関数のテストを書いて、実行して、
+&gt; 失敗するなら直して、最終的にすべてグリーンにして</code></pre>
+
+    <h2>4. 期待する出力の形を見せる</h2>
+    <p>
+      文字で説明するより、求める結果のサンプルを 1 つ見せたほうが伝わります。
+    </p>
+<pre><code>&gt; この CSV を JSON に変換するスクリプトを書いて。
+&gt; 出力はこういう形にしたい:
+&gt; [{"name": "山田", "age": 30}, ...]</code></pre>
+
+    <h2>5. 区切りで <code>/clear</code> する</h2>
+    <p>
+      話題が変わるたびに <code>/clear</code> をする習慣をつけると、
+      <a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> がきれいに保たれて、応答精度も料金もよくなります。
+    </p>
+    <ul>
+      <li>「ログイン機能の実装が終わったから次はテスト書く」 → <code>/clear</code></li>
+      <li>「バグ調査が終わったから次はリファクタ」 → <code>/clear</code></li>
+    </ul>
+
+    <h2>6. 失敗したら戻して、聞き方を変える</h2>
+    <p>
+      Claude も間違います。期待と違う結果が出たら、
+      <strong>無理に修正させ続けるより一度戻す</strong> のがおすすめです。
+    </p>
+    <ul>
+      <li>編集を戻す: <code>git checkout .</code> あるいは「さっきの編集を全部戻して」</li>
+      <li>会話を巻き戻す: 入力欄で <code>Esc</code> を 2 回押すと、過去のメッセージから再開できます (<a class="term" href="../glossary/checkpoint.html">チェックポイント</a>)</li>
+    </ul>
+    <p>
+      そのうえで、最初の依頼の <strong>言い方を変えて</strong> やり直すほうが、結果的に早いことが多いです。
+    </p>
+
+    <h2>あえてやらないほうがいいこと</h2>
+    <ul>
+      <li>
+        <strong>巨大なログ全体を貼り付ける</strong> —
+        <a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> を圧迫するだけ。
+        エラー部分だけに絞って渡す。
+      </li>
+      <li>
+        <strong>「いい感じに」「うまく」のような曖昧な指示</strong> —
+        Claude は素直に頑張るぶん、ハズすと大ハズしします。
+      </li>
+      <li>
+        <strong>Bypass モードを常用する</strong> —
+        慣れた頃が一番危ないです。常に Default か Accept Edits で。
+      </li>
+    </ul>
+
+    <div class="tip">
+      迷ったら <strong>「計画→実装→検証」</strong> の 3 ステップに分けるのが万能です。
+      プランモードで計画 → 通常モードで実装 → 「テスト走らせて」で検証。
+    </div>
+
+    <h2>このステップのまとめ</h2>
+    <ul>
+      <li>具体的に書く・期待する出力を見せる</li>
+      <li>大きな仕事はプランモードから</li>
+      <li>テストとセットで頼んで自走させる</li>
+      <li>区切りで <code>/clear</code></li>
+      <li>失敗したら無理せず戻して聞き直す</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="13-resume.html">
+        <span class="nav-label">← 前のステップ</span>
+        <span class="nav-title">STEP 13: 続きから始める</span>
+      </a>
+      <a class="next" href="15-next-step.html">
+        <span class="nav-label">次のステップ →</span>
+        <span class="nav-title">STEP 15: 次の一歩</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>
