@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A2: CLAUDE.md 詳細 - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>応用編</h3>
+      <ul class="nav-list">
+        <li><a href="01-project-flow.html"><span class="step-number">A1</span>プロジェクト運用</a></li>
+        <li><a href="02-claude-md-deep.html"><span class="step-number">A2</span>CLAUDE.md 詳細</a></li>
+        <li><a href="03-custom-commands.html"><span class="step-number">A3</span>カスタムコマンド</a></li>
+        <li><a href="04-subagents.html"><span class="step-number">A4</span>サブエージェント</a></li>
+        <li><a href="05-hooks.html"><span class="step-number">A5</span>フック実践</a></li>
+        <li><a href="06-mcp.html"><span class="step-number">A6</span>MCPサーバー</a></li>
+        <li><a href="07-skills.html"><span class="step-number">A7</span>スキル活用</a></li>
+        <li><a href="08-settings.html"><span class="step-number">A8</span>設定ファイル</a></li>
+        <li><a href="09-recipes.html"><span class="step-number">A9</span>自動化レシピ</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">応用編 A2</div>
+    <h1>CLAUDE.md 詳細</h1>
+
+    <div class="goal-box">
+      <h2>このチャプターのゴール</h2>
+      <ul>
+        <li>CLAUDE.md の階層的読み込みのしくみを知る</li>
+        <li>「効く」CLAUDE.md と「効かない」CLAUDE.md の違いを理解する</li>
+        <li>分割・インポートで肥大化を防ぐ</li>
+      </ul>
+    </div>
+
+    <h2>CLAUDE.md は重ね合わせで読み込まれる</h2>
+    <p>
+      <a class="term" href="../glossary/claude-md.html">CLAUDE.md</a> は単一のファイルではなく、
+      <strong>複数の階層から自動で読み込まれて連結</strong> されます。
+    </p>
+    <ol>
+      <li><code>~/.claude/CLAUDE.md</code> — ユーザー個人 (パソコン全体)</li>
+      <li><code>./CLAUDE.md</code> — プロジェクトルート</li>
+      <li><code>./(サブフォルダ)/CLAUDE.md</code> — サブフォルダ専用 (そこを触るときだけ)</li>
+      <li><code>./CLAUDE.local.md</code> — 個人専用 (Git に入れない)</li>
+    </ol>
+    <p>
+      たとえば <code>src/auth/login.ts</code> を編集する際は、ルートの CLAUDE.md と <code>src/auth/CLAUDE.md</code> の両方が効きます。
+      モノレポや巨大プロジェクトで「この領域に固有のルール」を局所的に書けるのが利点です。
+    </p>
+
+    <h2>「効く」 CLAUDE.md の 3 原則</h2>
+
+    <h3>1. 短く、具体的に</h3>
+    <p>
+      Claude は CLAUDE.md を <strong>毎回プロンプトに含めて</strong> 動きます。
+      長すぎると <a class="term" href="../glossary/token.html">トークン</a> を食うだけでなく、
+      重要な指示が埋もれて <strong>無視されやすくなり</strong> ます。
+      理想は 200 行以内、最大でも 500 行を目安に。
+    </p>
+
+    <h3>2. 「やる/やらない」で書く</h3>
+    <p>
+      抽象的な目標より、具体的な動作指示のほうが効きます。
+    </p>
+    <ul>
+      <li>❌ 「コードは美しく書いてください」</li>
+      <li>✅ 「セミコロンは必ず付ける。インデントはスペース 2 つ。1 行 100 文字以内」</li>
+    </ul>
+
+    <h3>3. 失敗例を入れる</h3>
+    <p>
+      「やってはいけないこと」を 1〜2 行入れると効果が高いです。
+    </p>
+<pre><code># 注意
+
+- console.log を残したままコミットしない
+- TypeScript で any を新規追加しない (既存の any はそのまま)
+- 関数を全部 export default にしない (named export を使う)</code></pre>
+
+    <h2>パターン集: プロジェクト用 CLAUDE.md</h2>
+
+    <h3>Web アプリのバックエンド</h3>
+<pre><code># プロジェクト概要
+社内向けタスク管理アプリの API サーバー。
+
+# 技術スタック
+- TypeScript / Node.js 20
+- Express + Drizzle ORM
+- PostgreSQL 15
+- テスト: Vitest
+
+# 開発コマンド
+- 開発サーバ: `pnpm dev`
+- テスト: `pnpm test`
+- 型チェック: `pnpm typecheck`
+- DB マイグレーション: `pnpm db:migrate`
+
+# コーディングルール
+- インポートはエイリアス (`@/...`) ではなく相対パス
+- ルートハンドラは `src/routes/` に置く
+- DB 操作はリポジトリ層 (`src/repos/`) 経由でのみ
+
+# Claude へのお願い
+- 大きい変更はまず計画モードで提案
+- DB スキーマを変えるときは必ずマイグレーション付きで
+- ルートを足したら同じファイルにテストも書く</code></pre>
+
+    <h3>個人ユーザー (~/.claude/CLAUDE.md)</h3>
+<pre><code># 言語と口調
+- 日本語で答える
+- 敬語ではなく丁寧語 (です・ます調)
+- コードコメントは英語で OK
+
+# デフォルトの好み
+- パッケージマネージャは pnpm (なければ npm)
+- バンドラは Vite を優先
+- リンタは ESLint Flat config を優先
+
+# やらないでほしいこと
+- 大量のコメントを足さない
+- ファイルの末尾に「Generated by AI」のような注釈を入れない</code></pre>
+
+    <h2>分割とインポート</h2>
+    <p>
+      CLAUDE.md には他のファイルを読み込むための <strong>@ 記法</strong> があります。
+    </p>
+<pre><code># プロジェクト概要
+@docs/overview.md
+
+# コーディングルール
+@docs/coding-rules.md
+
+# Claude へのお願い
+- (短い指示はここに直接書く)</code></pre>
+    <p>
+      <code>@パス</code> と書くと、その内容が読み込まれた瞬間に展開されます。
+      長くなる説明は別ドキュメントに切り出して、CLAUDE.md は目次のような役割にできます。
+    </p>
+
+    <h2>動的に追記する: <code>#</code> プロンプト</h2>
+    <p>
+      入力欄で <code>#</code> から始めて何か書くと、そのまま CLAUDE.md に追記されます。
+    </p>
+<pre><code># テストは必ず日本語のテストケース名で書いて</code></pre>
+    <p>
+      作業中に「あ、このルール覚えておいてほしい」と気づいた瞬間に書けば、
+      次回以降のセッションでも有効になります。
+    </p>
+
+    <h2>アンチパターン</h2>
+    <ul>
+      <li>
+        <strong>サンプルコードを大量に貼る</strong> — Claude は具体的な参照より、ルールのほうが効きやすい。
+        サンプルは別ファイルにしてリンクで指す。
+      </li>
+      <li>
+        <strong>「ベストプラクティスに従って」のような抽象指示</strong> — 何のベストプラクティスかが不明瞭。
+        具体ルールに落とす。
+      </li>
+      <li>
+        <strong>毎回トリビアルに書き直す</strong> — 一度入れたルールは Claude が引きずる。
+        変えるときは「以前のルールを上書き」と明示する。
+      </li>
+      <li>
+        <strong>機密情報を書く</strong> — CLAUDE.md は Anthropic に送信されます。API キーや顧客データを書かない。
+      </li>
+    </ul>
+
+    <div class="tip">
+      <strong>ドッグフーディング</strong>: Claude に「この CLAUDE.md を読んで、改善点を 3 つ提案して」と聞くと、
+      矛盾や曖昧さを指摘してもらえます。定期的に見直しの相手をしてもらいましょう。
+    </div>
+
+    <h2>このチャプターのまとめ</h2>
+    <ul>
+      <li>CLAUDE.md は階層から重ね合わせで読まれる</li>
+      <li>短く・具体的に・「やる/やらない」で書く</li>
+      <li>長くなる場合は <code>@ファイル</code> で分割</li>
+      <li><code>#</code> プロンプトで動的に追記できる</li>
+      <li>機密情報は絶対に書かない</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="01-project-flow.html">
+        <span class="nav-label">← 前のチャプター</span>
+        <span class="nav-title">A1: プロジェクト運用</span>
+      </a>
+      <a class="next" href="03-custom-commands.html">
+        <span class="nav-label">次のチャプター →</span>
+        <span class="nav-title">A3: カスタムコマンド</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

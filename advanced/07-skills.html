@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A7: スキル活用 - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>応用編</h3>
+      <ul class="nav-list">
+        <li><a href="01-project-flow.html"><span class="step-number">A1</span>プロジェクト運用</a></li>
+        <li><a href="02-claude-md-deep.html"><span class="step-number">A2</span>CLAUDE.md 詳細</a></li>
+        <li><a href="03-custom-commands.html"><span class="step-number">A3</span>カスタムコマンド</a></li>
+        <li><a href="04-subagents.html"><span class="step-number">A4</span>サブエージェント</a></li>
+        <li><a href="05-hooks.html"><span class="step-number">A5</span>フック実践</a></li>
+        <li><a href="06-mcp.html"><span class="step-number">A6</span>MCPサーバー</a></li>
+        <li><a href="07-skills.html"><span class="step-number">A7</span>スキル活用</a></li>
+        <li><a href="08-settings.html"><span class="step-number">A8</span>設定ファイル</a></li>
+        <li><a href="09-recipes.html"><span class="step-number">A9</span>自動化レシピ</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">応用編 A7</div>
+    <h1>スキルを活用する</h1>
+
+    <div class="goal-box">
+      <h2>このチャプターのゴール</h2>
+      <ul>
+        <li><a class="term" href="../glossary/skill.html">スキル</a> が「必要なときだけ読まれる知識パック」だと理解する</li>
+        <li>標準スキル (PDF / docx / xlsx / pptx) の使いどころを把握する</li>
+        <li>自作スキルの最小構成を書ける</li>
+      </ul>
+    </div>
+
+    <h2>スキルが解く課題: 「全部覚えさせるとコンテキストが死ぬ」</h2>
+    <p>
+      Claude に PDF 操作や Excel 編集の細かい手順を CLAUDE.md に書くと、毎回読み込まれてトークンを大量に消費します。
+      でも、使うのは PDF を扱う一部のセッションだけ。
+    </p>
+    <p>
+      <a class="term" href="../glossary/skill.html">スキル</a> は、この問題を <strong>「必要になったときに必要な分だけ読み込む」</strong>
+      というしくみで解決します。
+    </p>
+
+    <h2>サブエージェント・カスタムコマンドとの違い</h2>
+    <table>
+      <thead><tr><th>仕組み</th><th>呼ばれ方</th><th>主な役割</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><a class="term" href="../glossary/slash-command.html">カスタムコマンド</a></td>
+          <td>ユーザーが <code>/名前</code> と打つ</td>
+          <td>定型プロンプトの再利用</td>
+        </tr>
+        <tr>
+          <td><a class="term" href="../glossary/subagent.html">サブエージェント</a></td>
+          <td>Claude が判断して呼ぶ (or 明示)</td>
+          <td>独立コンテキストでの専門作業</td>
+        </tr>
+        <tr>
+          <td><a class="term" href="../glossary/skill.html">スキル</a></td>
+          <td>Claude が判断して読み込む</td>
+          <td>特定領域の手順書・参考実装</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>標準で入っているスキル</h2>
+    <p>
+      Anthropic 公式が提供しているスキルがあります。Claude Desktop アプリではすぐ使える状態になっていることが多いです。
+    </p>
+    <ul>
+      <li><strong>pdf</strong> — PDF の読み取り・結合・分割・OCR</li>
+      <li><strong>docx</strong> — Word ファイルの作成・編集 (テンプレート、スタイル、画像)</li>
+      <li><strong>xlsx</strong> — Excel ファイルの読み書き、グラフ作成</li>
+      <li><strong>pptx</strong> — PowerPoint の生成</li>
+      <li><strong>skill-creator</strong> — 新しいスキルを作るための「メタスキル」</li>
+    </ul>
+    <p>
+      たとえば「<code>report.pdf</code> から表だけ抽出して Excel にして」と頼むと、
+      pdf スキルと xlsx スキルの両方が自動で読み込まれて、適切な手順で進めてくれます。
+    </p>
+
+    <h2>スキルの構造</h2>
+    <p>
+      スキルは 1 つのフォルダに以下を置いた形をしています。
+    </p>
+<pre><code>.claude/skills/my-skill/
+├── SKILL.md          ← メイン (必須)
+├── reference.md      ← 詳細リファレンス (必要に応じて)
+├── scripts/
+│   └── helper.py     ← 補助スクリプト
+└── examples/
+    └── sample.json   ← サンプルデータ</code></pre>
+
+    <h3>SKILL.md の最小例</h3>
+<pre><code>---
+name: invoice-parser
+description: PDF 請求書から金額・日付・取引先名を抽出する。"請求書" や "invoice" の単語が出てきたら使う。
+---
+
+# 請求書パーサー
+
+PDF 請求書を構造化データに変換する手順をまとめたスキル。
+
+## 抽出する項目
+- invoice_number (請求書番号)
+- date (発行日)
+- vendor (取引先)
+- amount (合計金額)
+- tax (消費税)
+
+## 手順
+1. pdf スキルで PDF をテキスト化
+2. 以下のパターンで抽出:
+   - 請求書番号: "Invoice No.|請求書番号" の右側
+   - 日付: ISO 8601 形式に変換
+3. 結果を JSON で返す
+
+## サンプル
+@examples/sample.json
+</code></pre>
+
+    <h2>フロントマターの重要項目</h2>
+    <table>
+      <thead><tr><th>キー</th><th>意味</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>name</td>
+          <td>スキルの識別名</td>
+        </tr>
+        <tr>
+          <td>description</td>
+          <td><strong>もっとも重要</strong>。Claude が「この会話でこのスキルを使うべきか」を判断する根拠</td>
+        </tr>
+        <tr>
+          <td>allowed-tools</td>
+          <td>このスキルが使えるツールを限定</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>description の書き方が運命を分ける</h2>
+    <p>
+      スキルが <strong>必要なときだけ呼ばれる</strong> ためには、description が具体的でないといけません。
+      抽象的だと「いつでも呼ばれる」または「全然呼ばれない」のどちらかになります。
+    </p>
+    <ul>
+      <li>❌ 「データ処理を支援するスキル」</li>
+      <li>✅ 「CSV や TSV を JSON に変換するスキル。"CSV を JSON に" のような指示で使う」</li>
+    </ul>
+    <p>
+      <strong>「いつ使うか」</strong> をはっきり書くのがコツです。「TRIGGER」セクションを設けるパターンも有効。
+    </p>
+
+    <h2>スキルを作るスキル: skill-creator</h2>
+    <p>
+      標準で入っている <code>skill-creator</code> スキルを使うと、
+      会話の中で「~~~ するスキルを作りたい」と頼むだけで、適切な構成のスキルを自動で生成してくれます。
+    </p>
+<pre><code>あなた: 法人向け契約書のチェック観点をまとめたスキルを作って。
+        固有名詞・金額・期間・自動更新条項を必ず確認するように。
+
+Claude: ● Skill: skill-creator (使用)
+        スキル定義の雛形を作りますね。
+        以下の構成を提案します:
+
+        .claude/skills/contract-reviewer/
+        ├── SKILL.md
+        └── checklist.md
+        ...</code></pre>
+
+    <h2>スキルが効いているか確認</h2>
+    <ul>
+      <li>使われたスキルは、画面に「<code>📚 Skill: pdf (読み込み)</code>」のように表示される</li>
+      <li>呼ばれない場合は description の具体性が足りない可能性大</li>
+      <li>「pdf スキルを使って」と明示的に呼び出すこともできる</li>
+    </ul>
+
+    <h2>共有とパッケージング</h2>
+    <p>
+      スキルは単なるフォルダなので、Git でリポジトリに入れて共有するのが基本です。
+      組織内で標準スキル集を作って <code>~/.claude/skills/</code> にチームで配布する、といった運用もできます。
+    </p>
+
+    <div class="tip">
+      スキルとサブエージェントは似ていますが、<strong>「分離されたコンテキストで動かしたい」ならサブエージェント、
+      「メイン会話の中で参照したい知識」ならスキル</strong> と考えると整理しやすいです。
+    </div>
+
+    <h2>このチャプターのまとめ</h2>
+    <ul>
+      <li>スキルは「必要なときだけ読まれる知識パック」</li>
+      <li>標準で pdf / docx / xlsx / pptx などが入っている</li>
+      <li>SKILL.md + 補助ファイルでフォルダごと共有</li>
+      <li>description で「いつ使うか」を具体的に書くのが鍵</li>
+      <li>skill-creator で対話的にスキルを生成できる</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="06-mcp.html">
+        <span class="nav-label">← 前のチャプター</span>
+        <span class="nav-title">A6: MCPサーバー</span>
+      </a>
+      <a class="next" href="08-settings.html">
+        <span class="nav-label">次のチャプター →</span>
+        <span class="nav-title">A8: 設定ファイル</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

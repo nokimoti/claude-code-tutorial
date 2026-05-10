@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A1: プロジェクト運用のコツ - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>応用編</h3>
+      <ul class="nav-list">
+        <li><a href="01-project-flow.html"><span class="step-number">A1</span>プロジェクト運用</a></li>
+        <li><a href="02-claude-md-deep.html"><span class="step-number">A2</span>CLAUDE.md 詳細</a></li>
+        <li><a href="03-custom-commands.html"><span class="step-number">A3</span>カスタムコマンド</a></li>
+        <li><a href="04-subagents.html"><span class="step-number">A4</span>サブエージェント</a></li>
+        <li><a href="05-hooks.html"><span class="step-number">A5</span>フック実践</a></li>
+        <li><a href="06-mcp.html"><span class="step-number">A6</span>MCPサーバー</a></li>
+        <li><a href="07-skills.html"><span class="step-number">A7</span>スキル活用</a></li>
+        <li><a href="08-settings.html"><span class="step-number">A8</span>設定ファイル</a></li>
+        <li><a href="09-recipes.html"><span class="step-number">A9</span>自動化レシピ</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">応用編 A1</div>
+    <h1>プロジェクト運用のコツ</h1>
+
+    <div class="goal-box">
+      <h2>このチャプターのゴール</h2>
+      <ul>
+        <li>複数プロジェクトを行き来する流れをつかむ</li>
+        <li>「会話を切る/続ける」の判断基準を持つ</li>
+        <li>プロジェクト固有の設定とユーザー設定を使い分ける</li>
+      </ul>
+    </div>
+
+    <h2>プロジェクト = フォルダ単位で考える</h2>
+    <p>
+      Claude Code は <a class="term" href="../glossary/working-directory.html">プロジェクトフォルダ</a> 単位で
+      設定や履歴を管理します。フォルダの中に <code>.claude/</code> という隠しフォルダが作られ、ここに
+    </p>
+    <ul>
+      <li><code>settings.json</code> — チームと共有する許可ルール / フック</li>
+      <li><code>settings.local.json</code> — 自分専用 (Git に入れない)</li>
+      <li><code>commands/</code> — カスタム <a class="term" href="../glossary/slash-command.html">スラッシュコマンド</a></li>
+      <li><code>agents/</code> — <a class="term" href="../glossary/subagent.html">サブエージェント</a></li>
+      <li><code>skills/</code> — <a class="term" href="../glossary/skill.html">スキル</a></li>
+    </ul>
+    <p>
+      が入ります。フォルダごと別のパソコンに移しても、同じ環境を再現できる作りです。
+    </p>
+
+    <h2>3 階層の設定</h2>
+    <p>
+      Claude Code の設定は、3 階層で重ね合わせる仕組みになっています (上ほど優先)。
+    </p>
+    <table>
+      <thead>
+        <tr><th>階層</th><th>場所</th><th>用途</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>個人ローカル</td><td><code>.claude/settings.local.json</code></td><td>自分専用、Git 除外</td></tr>
+        <tr><td>プロジェクト</td><td><code>.claude/settings.json</code></td><td>チームで共有、Git に入れる</td></tr>
+        <tr><td>ユーザー</td><td><code>~/.claude/settings.json</code></td><td>パソコン全体に効く好み</td></tr>
+      </tbody>
+    </table>
+    <p>
+      たとえば「<code>npm test</code> をいつも許可」はチーム共有 (プロジェクト)、
+      「日本語で答えて」は個人ユーザー設定、というふうに役割を分けます。
+    </p>
+
+    <h2>会話の境界線をどこに引くか</h2>
+    <p>
+      ベテラン使いになるほど <strong>こまめに会話を区切る</strong> ようになります。
+      一つの会話に詰め込みすぎないことが、応答精度と料金の両方にプラスに働きます。
+    </p>
+
+    <h3>区切るべきタイミング</h3>
+    <ul>
+      <li>機能開発が一区切りついた</li>
+      <li>調査が終わって実装に入る</li>
+      <li>バグ修正が終わってリファクタに移る</li>
+      <li>異なるパッケージや別のディレクトリの作業に移る</li>
+    </ul>
+
+    <h3>続けるべきタイミング</h3>
+    <ul>
+      <li>同じ機能の調整・微修正を続けているとき</li>
+      <li>テストの修正と本体の修正を行き来しているとき</li>
+      <li>「さっきの差分」「いま書いた関数」のように直前の文脈を使うとき</li>
+    </ul>
+
+    <div class="tip">
+      会話を切る目安: 上のサイドバーで <code>/context</code> や使用率が <strong>50% を超えてきたら</strong>
+      <code>/clear</code> または <code>/compact</code> を検討。100% 近くなる前に手を打つのがコツです。
+    </div>
+
+    <h2>同じプロジェクトで「並行作業」する</h2>
+    <p>
+      バグ修正をしている最中に、別のブランチで実験もしたい ── そんなときは
+      <a class="term" href="../glossary/git.html">Git</a> の worktree や別のクローンを使い、
+      Claude Desktop アプリを <strong>2 つ起動して別フォルダを開く</strong> のが定番です。
+    </p>
+    <p>
+      アプリは同時に複数起動できる作りになっており、それぞれが別のセッションを持ちます。
+      履歴もごちゃ混ぜになりません。
+    </p>
+
+    <h2>新しいプロジェクトを Claude に渡すときの流れ</h2>
+    <ol>
+      <li>アプリで「フォルダを開く」 → プロジェクトを選ぶ</li>
+      <li>入力欄に <code>/init</code> を打って <a class="term" href="../glossary/claude-md.html">CLAUDE.md</a> を作ってもらう</li>
+      <li>提案された CLAUDE.md を読んで「ビルドコマンドが違う」「テストランナーが違う」など修正を依頼</li>
+      <li><code>/permissions</code> で頻繁に使うコマンド (<code>git status</code> など) を許可リストに追加</li>
+      <li>「このプロジェクトの全体像を 5 行で教えて」と聞いて、Claude の認識が正しいか確認</li>
+    </ol>
+    <p>
+      この最初の 5〜10 分の投資で、その後数時間〜数日の作業が劇的に楽になります。
+    </p>
+
+    <h2>機密情報の扱い</h2>
+    <div class="warning">
+      <strong>API キーやパスワードを含むファイルをアプリに見せない</strong> のが鉄則です。
+      <code>.env</code> や <code>.env.local</code>、認証ファイルは
+      <a class="term" href="../glossary/settings-json.html">settings.json</a> の deny ルールに入れて、
+      Claude が間違って読まないようにしておきます。
+    </div>
+<pre><code>{
+  "permissions": {
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(secrets/**)",
+      "Read(**/*.pem)"
+    ]
+  }
+}</code></pre>
+
+    <h2>このチャプターのまとめ</h2>
+    <ul>
+      <li>1 プロジェクト = 1 フォルダ。中の <code>.claude/</code> に設定が集まる</li>
+      <li>設定は「個人ローカル / プロジェクト / ユーザー」の 3 階層</li>
+      <li>区切れる作業はこまめに <code>/clear</code></li>
+      <li>新規プロジェクトはまず <code>/init</code> から</li>
+      <li>機密ファイルは deny ルールで Claude から守る</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="../steps/15-next-step.html">
+        <span class="nav-label">← 入門ステップへ</span>
+        <span class="nav-title">STEP 15: 次の一歩</span>
+      </a>
+      <a class="next" href="02-claude-md-deep.html">
+        <span class="nav-label">次のチャプター →</span>
+        <span class="nav-title">A2: CLAUDE.md 詳細</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

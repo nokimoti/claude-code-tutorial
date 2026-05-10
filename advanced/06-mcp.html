@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A6: MCP サーバーをつなぐ - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>応用編</h3>
+      <ul class="nav-list">
+        <li><a href="01-project-flow.html"><span class="step-number">A1</span>プロジェクト運用</a></li>
+        <li><a href="02-claude-md-deep.html"><span class="step-number">A2</span>CLAUDE.md 詳細</a></li>
+        <li><a href="03-custom-commands.html"><span class="step-number">A3</span>カスタムコマンド</a></li>
+        <li><a href="04-subagents.html"><span class="step-number">A4</span>サブエージェント</a></li>
+        <li><a href="05-hooks.html"><span class="step-number">A5</span>フック実践</a></li>
+        <li><a href="06-mcp.html"><span class="step-number">A6</span>MCPサーバー</a></li>
+        <li><a href="07-skills.html"><span class="step-number">A7</span>スキル活用</a></li>
+        <li><a href="08-settings.html"><span class="step-number">A8</span>設定ファイル</a></li>
+        <li><a href="09-recipes.html"><span class="step-number">A9</span>自動化レシピ</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">応用編 A6</div>
+    <h1>MCP サーバーをつなぐ</h1>
+
+    <div class="goal-box">
+      <h2>このチャプターのゴール</h2>
+      <ul>
+        <li>MCP サーバーが「Claude に新しい手足を生やす」仕組みであることを理解する</li>
+        <li>有名な MCP サーバーを 1 つ追加してみる</li>
+        <li>3 つの接続方式 (stdio / SSE / HTTP) の違いを把握する</li>
+      </ul>
+    </div>
+
+    <h2>MCP は外部システムとの「共通プロトコル」</h2>
+    <p>
+      <a class="term" href="../glossary/mcp.html">MCP</a> (Model Context Protocol) は、
+      Claude のような AI から外部システムを操作するための共通仕様です。
+      MCP サーバーをつなぐと、Claude が新しい <a class="term" href="../glossary/tool.html">ツール</a> を使えるようになります。
+    </p>
+    <ul>
+      <li>GitHub の Issue を読む / 作る</li>
+      <li>Slack にメッセージを投稿</li>
+      <li>Postgres に SQL を投げる</li>
+      <li>ブラウザを操作する</li>
+      <li>Notion / Linear / Jira などのタスクを操作</li>
+    </ul>
+
+    <h2>3 つの接続方式</h2>
+    <table>
+      <thead><tr><th>方式</th><th>用途</th><th>例</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>stdio</strong></td>
+          <td>ローカルでコマンドを起動。最も多い形式</td>
+          <td><code>npx @modelcontextprotocol/server-github</code></td>
+        </tr>
+        <tr>
+          <td><strong>SSE</strong> (Server-Sent Events)</td>
+          <td>HTTP 経由のストリーミング (古い形式)</td>
+          <td>SaaS 提供のサーバー</td>
+        </tr>
+        <tr>
+          <td><strong>HTTP</strong></td>
+          <td>新しい HTTP/JSON 方式 (推奨)</td>
+          <td>クラウドの公式コネクター</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>追加方法 1: GUI から (推奨)</h2>
+    <ol>
+      <li>アプリ左下の歯車 (⚙) をクリック → 設定画面を開く</li>
+      <li>「コネクター」または「MCP サーバー」タブを選ぶ</li>
+      <li>「追加」ボタンから、リストから選ぶ or URL を入れる</li>
+      <li>必要なら認証 (OAuth / API キー) を入力</li>
+    </ol>
+    <p>
+      公式が用意している有名サーバー (GitHub、Slack、Notion など) は数クリックで導入できます。
+    </p>
+
+    <h2>追加方法 2: 設定ファイルで</h2>
+    <p>
+      上級者はプロジェクトの <code>.mcp.json</code> に直接書くことで、
+      Git でチームに共有できます。
+    </p>
+<pre><code><span style="color:#7dcfff">.mcp.json</span>
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "filesystem-docs": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/docs"]
+    },
+    "linear": {
+      "type": "http",
+      "url": "https://mcp.linear.app/sse"
+    }
+  }
+}</code></pre>
+    <p>
+      <code>${VAR}</code> でシェル環境変数を展開できるので、
+      機密情報をコミットせずに済みます。
+    </p>
+
+    <h2>有名な MCP サーバー</h2>
+    <ul>
+      <li>
+        <strong>filesystem</strong> (<code>@modelcontextprotocol/server-filesystem</code>) —
+        指定フォルダの読み書き。プロジェクトフォルダ外のファイルに触れさせたいときに便利
+      </li>
+      <li>
+        <strong>github</strong> — Issue / PR / リポジトリ操作。コードレビューや進捗管理に
+      </li>
+      <li>
+        <strong>postgres</strong> — DB へのクエリ。スキーマを質問しながら開発できる
+      </li>
+      <li>
+        <strong>puppeteer / playwright</strong> — ブラウザ操作。E2E テストやスクレイピング
+      </li>
+      <li>
+        <strong>slack</strong> — メッセージ投稿、チャンネル一覧
+      </li>
+      <li>
+        <strong>linear / jira / notion</strong> — タスク・ドキュメント連携
+      </li>
+      <li>
+        <strong>memory</strong> — 永続化メモリ。会話をまたいだ知識の蓄積
+      </li>
+    </ul>
+
+    <h2>使い方</h2>
+    <p>
+      MCP サーバーを追加すると、Claude は何もしなくてもそのサーバーが提供するツールを認識します。
+      自然言語で頼むだけで、自動で適切なツールを選んで使ってくれます。
+    </p>
+<pre><code>あなた: GitHub で「bug」ラベルが付いた未解決 Issue を 5 件見せて
+
+Claude: ● github__list_issues(state: "open", labels: ["bug"], per_page: 5)
+        ⎿  5 件取得
+
+        以下の 5 件です。
+        1. #142 ログイン後に画面が真っ白...</code></pre>
+
+    <h2>権限の管理</h2>
+    <p>
+      MCP サーバーが提供するツールは、通常のツールと同じように
+      <a class="term" href="../glossary/permission-mode.html">許可モード</a> の対象になります。
+      <a class="term" href="../glossary/settings-json.html">settings.json</a> で個別に制御できます。
+    </p>
+<pre><code>{
+  "permissions": {
+    "allow": [
+      "mcp__github__list_issues",
+      "mcp__github__get_issue"
+    ],
+    "deny": [
+      "mcp__github__delete_repository"
+    ]
+  }
+}</code></pre>
+    <p>
+      ツール名は <code>mcp__(サーバー名)__(ツール名)</code> という形式です。
+    </p>
+
+    <h2>動作確認とデバッグ</h2>
+    <ul>
+      <li><code>/mcp</code> — 接続中のサーバー一覧と状態を表示</li>
+      <li>サーバーが提供するツールは入力欄で <code>@</code> を打って候補から確認できる</li>
+      <li>失敗したら設定画面のログを見る (タイムアウトや認証エラーが多い)</li>
+    </ul>
+
+    <h2>自分で MCP サーバーを作る</h2>
+    <p>
+      公式 SDK を使えば、TypeScript / Python で 1 ファイルから MCP サーバーを書けます。
+      社内 API・独自データソース・既存ツールのラップなどに使うと、Claude を真にカスタムなアシスタントにできます。
+    </p>
+    <ul>
+      <li>公式 SDK: <a href="https://github.com/modelcontextprotocol" target="_blank" rel="noopener">github.com/modelcontextprotocol</a></li>
+      <li>「Hello, MCP」レベルなら 30 行ほど</li>
+    </ul>
+
+    <div class="warning">
+      第三者製の MCP サーバーは <strong>あなたのパソコンでコードを実行</strong> します。
+      公開元が信頼できるかを必ず確認してから入れてください。
+      また、必要以上の権限 (DB の DELETE 等) を与えないように deny リストの活用を。
+    </div>
+
+    <h2>このチャプターのまとめ</h2>
+    <ul>
+      <li>MCP は Claude に外部接続を生やす共通プロトコル</li>
+      <li>追加は GUI (歯車 → コネクター) または <code>.mcp.json</code> で</li>
+      <li>filesystem / github / postgres / puppeteer など定番が多数</li>
+      <li>権限は <code>mcp__サーバー名__ツール名</code> 単位で許可・拒否できる</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="05-hooks.html">
+        <span class="nav-label">← 前のチャプター</span>
+        <span class="nav-title">A5: フック実践</span>
+      </a>
+      <a class="next" href="07-skills.html">
+        <span class="nav-label">次のチャプター →</span>
+        <span class="nav-title">A7: スキル活用</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

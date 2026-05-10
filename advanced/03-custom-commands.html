@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A3: カスタムスラッシュコマンド - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>応用編</h3>
+      <ul class="nav-list">
+        <li><a href="01-project-flow.html"><span class="step-number">A1</span>プロジェクト運用</a></li>
+        <li><a href="02-claude-md-deep.html"><span class="step-number">A2</span>CLAUDE.md 詳細</a></li>
+        <li><a href="03-custom-commands.html"><span class="step-number">A3</span>カスタムコマンド</a></li>
+        <li><a href="04-subagents.html"><span class="step-number">A4</span>サブエージェント</a></li>
+        <li><a href="05-hooks.html"><span class="step-number">A5</span>フック実践</a></li>
+        <li><a href="06-mcp.html"><span class="step-number">A6</span>MCPサーバー</a></li>
+        <li><a href="07-skills.html"><span class="step-number">A7</span>スキル活用</a></li>
+        <li><a href="08-settings.html"><span class="step-number">A8</span>設定ファイル</a></li>
+        <li><a href="09-recipes.html"><span class="step-number">A9</span>自動化レシピ</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">応用編 A3</div>
+    <h1>カスタムスラッシュコマンド</h1>
+
+    <div class="goal-box">
+      <h2>このチャプターのゴール</h2>
+      <ul>
+        <li>よく使う依頼を <code>/</code> 一発で呼び出せるようにする</li>
+        <li>引数 <code>$ARGUMENTS</code> でコマンドを汎用化する</li>
+        <li><code>!</code> や <code>@</code> でコマンド実行・ファイル参照を埋め込む</li>
+      </ul>
+    </div>
+
+    <h2>2 種類のカスタムコマンド</h2>
+    <ul>
+      <li>
+        <strong>プロジェクト用</strong>: <code>.claude/commands/(名前).md</code><br>
+        そのプロジェクトでだけ使える。Git にコミットしてチームで共有。
+      </li>
+      <li>
+        <strong>ユーザー用</strong>: <code>~/.claude/commands/(名前).md</code><br>
+        どのプロジェクトでも使える、自分専用。
+      </li>
+    </ul>
+    <p>
+      ファイル名 (拡張子を除く) がそのまま <a class="term" href="../glossary/slash-command.html">スラッシュコマンド</a> 名になります。
+      <code>.claude/commands/test.md</code> なら <code>/test</code> で呼び出せます。
+    </p>
+
+    <h2>最小構成</h2>
+    <p>
+      ファイルの中身は <a class="term" href="../glossary/markdown.html">Markdown</a> で、本文をそのまま Claude に送るプロンプトとして扱います。
+    </p>
+<pre><code><span style="color:#7dcfff"># .claude/commands/test.md</span>
+
+テストを実行して、失敗しているテストがあれば
+原因と修正方針を教えてください。</code></pre>
+    <p>
+      これだけで、入力欄から <code>/test</code> と打つだけで上記の指示が送れるようになります。
+    </p>
+
+    <h2>引数を受け取る: <code>$ARGUMENTS</code></h2>
+    <p>
+      コマンドのあとに書いた文字を、ファイル中の <code>$ARGUMENTS</code> に差し込めます。
+    </p>
+<pre><code><span style="color:#7dcfff">.claude/commands/translate.md</span>
+
+以下の内容を $ARGUMENTS に翻訳してください。
+原文の意味を変えず、自然な表現を心がけてください。</code></pre>
+    <p>
+      これで <code>/translate 英語</code>、<code>/translate フランス語</code> のように使い回せます。
+      引数を複数欲しいときは <code>$1</code> <code>$2</code> も使えます。
+    </p>
+
+    <h2>フロントマター (オプション)</h2>
+    <p>
+      ファイル先頭に <code>---</code> で囲んだ <strong>フロントマター</strong> を書くと、
+      コマンドの動作を細かく制御できます。
+    </p>
+<pre><code>---
+description: PR の説明文を生成する
+allowed-tools: Bash, Read
+model: claude-opus-4-5
+argument-hint: "[ブランチ名]"
+---
+
+git diff $ARGUMENTS..HEAD の内容を読んで、
+コミットに対応する PR 説明文を Markdown で書いてください。
+セクション: 概要 / 変更点 / テスト方法</code></pre>
+    <table>
+      <thead><tr><th>キー</th><th>意味</th></tr></thead>
+      <tbody>
+        <tr><td>description</td><td>コマンド一覧 (<code>/help</code>) に出る説明</td></tr>
+        <tr><td>allowed-tools</td><td>このコマンド実行中に使えるツールを限定</td></tr>
+        <tr><td>model</td><td>このコマンドだけ別モデルで動かす</td></tr>
+        <tr><td>argument-hint</td><td>入力候補に表示されるヒント文字列</td></tr>
+      </tbody>
+    </table>
+
+    <h2>シェルコマンドを埋め込む: <code>!</code> 記法</h2>
+    <p>
+      コマンド本文の中で <code>!`コマンド`</code> と書くと、その時点でコマンドが実行され、出力がプロンプトに埋め込まれます。
+    </p>
+<pre><code>---
+description: 現在の git 状態を要約
+allowed-tools: Bash
+---
+
+以下の git 状態を読んで、変更内容を 3 行で要約してください。
+
+ブランチ: !`git branch --show-current`
+
+変更ファイル:
+!`git status -s`
+
+最近のコミット:
+!`git log --oneline -5`</code></pre>
+    <p>
+      Claude が動き始める前に、<code>!`...`</code> の部分が実行された結果に置き換わるので、
+      最新の状態を確実にコンテキストに含められます。
+    </p>
+
+    <h2>ファイルを読み込む: <code>@</code> 記法</h2>
+    <p>
+      <code>@パス</code> と書くと、そのファイルの内容がプロンプトに埋め込まれます。
+    </p>
+<pre><code>以下のスタイルガイドに従ってレビューしてください。
+
+@docs/style-guide.md
+
+レビュー対象: $ARGUMENTS</code></pre>
+
+    <h2>サブディレクトリで階層化</h2>
+    <p>
+      <code>.claude/commands/git/commit.md</code> のようにサブフォルダに置くと、
+      <code>/git:commit</code> として呼び出せます。
+      関連コマンドをグループ化したいときに使います。
+    </p>
+
+    <h2>実用レシピ</h2>
+
+    <h3>テストグリーン化</h3>
+<pre><code><span style="color:#7dcfff">.claude/commands/fix-tests.md</span>
+---
+description: 失敗テストを直してすべてグリーンに
+allowed-tools: Bash, Read, Edit
+---
+
+以下の手順で進めてください。
+1. !`pnpm test` を実行
+2. 失敗テストを 1 件ずつ確認
+3. テストが正しく、実装が間違っているなら実装を直す
+4. テストが間違っているなら、まず確認を求める
+5. すべてグリーンになるまで繰り返す</code></pre>
+
+    <h3>コミットメッセージ生成</h3>
+<pre><code><span style="color:#7dcfff">.claude/commands/commit.md</span>
+---
+description: ステージしてある内容からコミットメッセージを作ってコミット
+allowed-tools: Bash
+---
+
+以下のステージ内容を読んで:
+
+!`git diff --cached`
+
+Conventional Commits 形式でメッセージを作り、
+`git commit -m "..."` を実行してください。
+本文 (body) は不要、件名 1 行のみ。</code></pre>
+
+    <h3>新機能の計画</h3>
+<pre><code><span style="color:#7dcfff">.claude/commands/plan-feature.md</span>
+---
+description: 新機能の実装計画を作る
+argument-hint: "[機能名]"
+---
+
+「$ARGUMENTS」という機能を追加するための計画を立ててください。
+プランモードに入って:
+1. 既存コードのどこに影響するか調査
+2. 実装ステップを 3〜7 個に分けて提示
+3. テスト戦略を 1 段落で
+4. リスクと注意点を箇条書きで</code></pre>
+
+    <div class="tip">
+      コマンドファイルを編集したら、その場で反映されます。再起動は不要。
+      入力欄で <code>/</code> を打つと最新のコマンド一覧がポップアップします。
+    </div>
+
+    <h2>このチャプターのまとめ</h2>
+    <ul>
+      <li>カスタムコマンドはプロジェクト共有 / ユーザー個人の 2 種類</li>
+      <li>引数は <code>$ARGUMENTS</code> や <code>$1</code> <code>$2</code> で受け取れる</li>
+      <li>フロントマターで description / allowed-tools / model を指定</li>
+      <li><code>!`コマンド`</code> でシェル出力を、<code>@パス</code> でファイル内容をプロンプトに埋め込める</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="02-claude-md-deep.html">
+        <span class="nav-label">← 前のチャプター</span>
+        <span class="nav-title">A2: CLAUDE.md 詳細</span>
+      </a>
+      <a class="next" href="04-subagents.html">
+        <span class="nav-label">次のチャプター →</span>
+        <span class="nav-title">A4: サブエージェント</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

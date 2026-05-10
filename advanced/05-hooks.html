@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A5: フック実践 - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>応用編</h3>
+      <ul class="nav-list">
+        <li><a href="01-project-flow.html"><span class="step-number">A1</span>プロジェクト運用</a></li>
+        <li><a href="02-claude-md-deep.html"><span class="step-number">A2</span>CLAUDE.md 詳細</a></li>
+        <li><a href="03-custom-commands.html"><span class="step-number">A3</span>カスタムコマンド</a></li>
+        <li><a href="04-subagents.html"><span class="step-number">A4</span>サブエージェント</a></li>
+        <li><a href="05-hooks.html"><span class="step-number">A5</span>フック実践</a></li>
+        <li><a href="06-mcp.html"><span class="step-number">A6</span>MCPサーバー</a></li>
+        <li><a href="07-skills.html"><span class="step-number">A7</span>スキル活用</a></li>
+        <li><a href="08-settings.html"><span class="step-number">A8</span>設定ファイル</a></li>
+        <li><a href="09-recipes.html"><span class="step-number">A9</span>自動化レシピ</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">応用編 A5</div>
+    <h1>フック実践</h1>
+
+    <div class="goal-box">
+      <h2>このチャプターのゴール</h2>
+      <ul>
+        <li>主要な <a class="term" href="../glossary/hook.html">フック</a> の発火タイミングを把握する</li>
+        <li>「自動フォーマット」「禁止操作のブロック」「終了通知」を実装できる</li>
+        <li>フックの戻り値で Claude の挙動に介入できることを知る</li>
+      </ul>
+    </div>
+
+    <h2>フックは「Claude のイベントに割り込む」仕組み</h2>
+    <p>
+      <a class="term" href="../glossary/hook.html">フック</a> を設定すると、Claude が
+      ツールを使う前後 / メッセージ送信時 / セッション開始時 などのイベントに合わせて、
+      <strong>あなたが指定したコマンド</strong> が自動で走ります。
+      設定は <a class="term" href="../glossary/settings-json.html">settings.json</a> に書きます。
+    </p>
+
+    <h2>主なフックタイプ</h2>
+    <table>
+      <thead><tr><th>イベント名</th><th>発火タイミング</th><th>主な用途</th></tr></thead>
+      <tbody>
+        <tr><td><code>PreToolUse</code></td><td>ツール実行 <em>前</em></td><td>禁止操作の事前ブロック、ログ記録</td></tr>
+        <tr><td><code>PostToolUse</code></td><td>ツール実行 <em>後</em></td><td>編集後のフォーマット、ビルドチェック</td></tr>
+        <tr><td><code>UserPromptSubmit</code></td><td>ユーザー送信時</td><td>プロンプトに自動でコンテキストを足す、検閲</td></tr>
+        <tr><td><code>Stop</code></td><td>Claude が応答完了時</td><td>完了通知、ログ記録</td></tr>
+        <tr><td><code>SubagentStop</code></td><td>サブエージェント完了時</td><td>結果ログ、後処理</td></tr>
+        <tr><td><code>SessionStart</code></td><td>セッション開始時</td><td>状態の表示、最新化チェック</td></tr>
+        <tr><td><code>SessionEnd</code></td><td>セッション終了時</td><td>クリーンアップ、サマリ送信</td></tr>
+        <tr><td><code>Notification</code></td><td>通知発生時 (待ち状態など)</td><td>OS 通知の発火</td></tr>
+      </tbody>
+    </table>
+
+    <h2>最小例: 編集後に自動フォーマット</h2>
+<pre><code><span style="color:#7dcfff">.claude/settings.json</span>
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "pnpm prettier --write ." }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+    <p>
+      <code>matcher</code> は対象とするツール名の正規表現。Edit / Write / MultiEdit が走ったあと、
+      <code>pnpm prettier --write .</code> が自動で実行されます。
+    </p>
+
+    <h2>matcher の書き方</h2>
+    <ul>
+      <li><code>"Edit"</code> — 完全一致</li>
+      <li><code>"Edit|Write"</code> — どちらかにマッチ</li>
+      <li><code>"Bash"</code> — Bash ツール全部</li>
+      <li><code>"Bash:rm.*"</code> — Bash の中で <code>rm</code> 系コマンドだけに反応 (一部のフックタイプで対応)</li>
+      <li><code>""</code> — すべてのツールにマッチ (空文字列)</li>
+    </ul>
+
+    <h2>フックが受け取る情報</h2>
+    <p>
+      フックコマンドには、JSON が標準入力 (stdin) で渡されます。
+      これを読むと、どのツールがどんな引数で呼ばれたかがわかります。
+    </p>
+<pre><code>{
+  "session_id": "abc123",
+  "tool_name": "Edit",
+  "tool_input": {
+    "file_path": "/path/to/file.ts",
+    "old_string": "...",
+    "new_string": "..."
+  }
+}</code></pre>
+    <p>
+      シェルスクリプトなら <code>jq</code> を使って取り出せます。
+    </p>
+<pre><code>FILE=$(jq -r '.tool_input.file_path')
+case "$FILE" in
+  *.ts|*.tsx) pnpm prettier --write "$FILE" ;;
+  *.py)       black "$FILE" ;;
+esac</code></pre>
+
+    <h2>フックの「戻り値」で挙動をコントロール</h2>
+    <p>
+      フックコマンドの <strong>終了コード</strong> が、Claude の挙動に影響します (主に PreToolUse)。
+    </p>
+    <table>
+      <thead><tr><th>終了コード</th><th>意味</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>OK。そのまま続行</td></tr>
+        <tr><td>2</td><td>ブロック。Claude にエラーを通知して再考させる</td></tr>
+        <tr><td>その他</td><td>非ブロッキングのエラー (ログだけ残る)</td></tr>
+      </tbody>
+    </table>
+    <p>
+      また stdout に JSON を返すと、より細かい制御ができます。
+    </p>
+<pre><code>{
+  "decision": "block",
+  "reason": "本番環境への push は禁止されています"
+}</code></pre>
+
+    <h2>レシピ集</h2>
+
+    <h3>1. <code>.env</code> ファイルの読み取りを禁止</h3>
+<pre><code>{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const i=JSON.parse(require('fs').readFileSync(0)); if(/\\\\.env/.test(i.tool_input.file_path)){console.error('blocked');process.exit(2)}\""
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+
+    <h3>2. 編集が走ったら型チェック</h3>
+<pre><code>{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "pnpm typecheck 2>&1 | tail -20" }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+    <p>
+      出力は Claude にコンテキストとして戻るので、エラーがあれば自動で修正に動いてくれます。
+    </p>
+
+    <h3>3. 応答完了時に通知</h3>
+<pre><code>{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          { "type": "command", "command": "osascript -e 'display notification \"Claude が応答を終えました\"'" }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+    <p>
+      macOS の例。Windows なら <code>powershell -c "..."</code> で BurntToast や msg.exe を使う。
+    </p>
+
+    <h3>4. プロンプト送信前に Git の状態を自動添付</h3>
+<pre><code>{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          { "type": "command", "command": "git status -s" }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+    <p>
+      毎回、現在の git ステータスがプロンプトの先頭に追加されます。
+      Claude が「いま何が変わっているか」を常に把握した状態で答えてくれます。
+    </p>
+
+    <h2>デバッグ方法</h2>
+    <ul>
+      <li>入力欄で <code>/hooks</code> を打つと、設定済みのフック一覧が表示される</li>
+      <li>標準出力 / 標準エラーの内容は Claude に渡される (確認しやすい)</li>
+      <li>テストはコマンド単体で動かす: <code>echo '{"tool_input":{"file_path":"x.ts"}}' | (フックコマンド)</code></li>
+    </ul>
+
+    <div class="warning">
+      フックは <strong>ユーザー権限で勝手に動く</strong> 仕組みです。
+      <code>.claude/settings.json</code> はチームで共有されるので、悪意あるフックが混入しないか
+      <code>git diff</code> で確認する習慣をつけましょう。
+      Claude Code は新規フックを検知すると確認ダイアログを出します。
+    </div>
+
+    <h2>このチャプターのまとめ</h2>
+    <ul>
+      <li>フックはイベントに割り込む仕組み (PreToolUse / PostToolUse / Stop など多数)</li>
+      <li><code>matcher</code> でツール / コマンドを絞り込める</li>
+      <li>標準入力で JSON、終了コード 2 でブロックできる</li>
+      <li>自動フォーマット・型チェック・禁止操作・通知などに使える</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="04-subagents.html">
+        <span class="nav-label">← 前のチャプター</span>
+        <span class="nav-title">A4: サブエージェント</span>
+      </a>
+      <a class="next" href="06-mcp.html">
+        <span class="nav-label">次のチャプター →</span>
+        <span class="nav-title">A6: MCPサーバー</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A4: サブエージェント - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>応用編</h3>
+      <ul class="nav-list">
+        <li><a href="01-project-flow.html"><span class="step-number">A1</span>プロジェクト運用</a></li>
+        <li><a href="02-claude-md-deep.html"><span class="step-number">A2</span>CLAUDE.md 詳細</a></li>
+        <li><a href="03-custom-commands.html"><span class="step-number">A3</span>カスタムコマンド</a></li>
+        <li><a href="04-subagents.html"><span class="step-number">A4</span>サブエージェント</a></li>
+        <li><a href="05-hooks.html"><span class="step-number">A5</span>フック実践</a></li>
+        <li><a href="06-mcp.html"><span class="step-number">A6</span>MCPサーバー</a></li>
+        <li><a href="07-skills.html"><span class="step-number">A7</span>スキル活用</a></li>
+        <li><a href="08-settings.html"><span class="step-number">A8</span>設定ファイル</a></li>
+        <li><a href="09-recipes.html"><span class="step-number">A9</span>自動化レシピ</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">応用編 A4</div>
+    <h1>サブエージェントを使いこなす</h1>
+
+    <div class="goal-box">
+      <h2>このチャプターのゴール</h2>
+      <ul>
+        <li>サブエージェントが解決する 2 つの課題を理解する</li>
+        <li>役割定義ファイルを書ける</li>
+        <li>「自動呼び出し」と「明示呼び出し」を使い分ける</li>
+      </ul>
+    </div>
+
+    <h2>サブエージェントが解く 2 つの課題</h2>
+    <p>
+      <a class="term" href="../glossary/subagent.html">サブエージェント</a> は、メインの Claude が
+      <strong>仕事の一部を別の Claude に委譲する</strong> ための仕組みです。
+      これが解決するのは主に 2 つの課題です。
+    </p>
+    <ol>
+      <li>
+        <strong>コンテキスト汚染を避ける</strong> — 巨大なログを読ませる、ライブラリ全体を調査する、
+        などの作業はメインの会話を圧迫します。サブエージェントは独立した
+        <a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> を持つので、
+        最終結果だけがメインに戻ります。
+      </li>
+      <li>
+        <strong>役割を専門化する</strong> — 「コードレビュー専門」「テスト実行専門」のように
+        指示と権限をパッケージ化しておくと、毎回プロンプトを書き直す手間が減ります。
+      </li>
+    </ol>
+
+    <h2>定義ファイルの場所</h2>
+    <ul>
+      <li>プロジェクト用: <code>.claude/agents/(名前).md</code></li>
+      <li>ユーザー用: <code>~/.claude/agents/(名前).md</code></li>
+    </ul>
+    <p>
+      アプリの入力欄で <code>/agents</code> と打つと、新規作成・編集・削除を GUI で扱うこともできます。
+    </p>
+
+    <h2>定義ファイルの形</h2>
+<pre><code>---
+name: code-reviewer
+description: コードの差分をレビューし、問題点を箇条書きで返す。実装の前後、PR 直前に使う。
+tools: Read, Grep, Glob, Bash(git diff:*)
+model: claude-sonnet-4-5
+---
+
+あなたはシニアエンジニアとしてコードレビューを行います。
+
+# 観点
+- 明らかなバグ・null 安全性・型の不整合
+- 命名の一貫性
+- テストカバレッジの抜け
+- セキュリティ (SQL インジェクション、XSS、機密情報漏れ)
+
+# 出力形式
+以下の Markdown で返してください。
+
+## Critical (要修正)
+- ...
+
+## Suggestion (提案)
+- ...
+
+## Nits (好み)
+- ...
+
+何も問題がなければ「✅ 問題ありません」とだけ返してください。</code></pre>
+
+    <h2>フロントマターの主要キー</h2>
+    <table>
+      <thead><tr><th>キー</th><th>意味</th></tr></thead>
+      <tbody>
+        <tr><td>name</td><td>サブエージェントの識別名 (英小文字とハイフン推奨)</td></tr>
+        <tr><td>description</td><td><strong>もっとも重要</strong>。Claude が「いつこのエージェントを呼ぶか」を判断する手がかり</td></tr>
+        <tr><td>tools</td><td>このエージェントが使える <a class="term" href="../glossary/tool.html">ツール</a> を限定 (省略時は親と同じ)</td></tr>
+        <tr><td>model</td><td>使うモデルの上書き。軽い作業は Haiku、難しい設計は Opus、など</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <code>description</code> は <strong>具体的なトリガー条件を含める</strong> のがコツです。
+      「実装の前後、PR 直前に使う」のように<strong>いつ呼ばれるか</strong>を書くと、
+      Claude が自動で適切なタイミングで呼び出してくれます。
+    </div>
+
+    <h2>2 つの呼び出し方</h2>
+
+    <h3>1. 自動呼び出し</h3>
+    <p>
+      会話の中で「この変更をレビューして」のような依頼があると、
+      Claude が <code>description</code> を見て、合致するサブエージェントを自動で呼びます。
+      呼ばれたかどうかは画面の「<code>● Task(code-reviewer)</code>」のような表示でわかります。
+    </p>
+
+    <h3>2. 明示呼び出し</h3>
+    <p>
+      「<strong>code-reviewer サブエージェントを使ってレビューして</strong>」のように
+      名前を明示しても呼び出せます。
+      自動で呼ばれてほしくないが、必要なときだけ確実に使いたい場合に便利です。
+    </p>
+
+    <h2>定番のサブエージェント例</h2>
+
+    <h3>code-reviewer</h3>
+    <p>差分を読んで、改善点を箇条書きで返す。実装後、コミット前のチェックに最適。</p>
+
+    <h3>test-runner</h3>
+    <p>テストを実行し、失敗だけを抜き出して原因を要約。長いログをメインに持ち込まずに済む。</p>
+
+    <h3>debugger</h3>
+    <p>エラーログとコードを読んで、原因を仮説立てる。実装は行わず、診断のみ。</p>
+
+    <h3>doc-writer</h3>
+    <p>関数やモジュールの説明文を生成。コメントを書きすぎないように制約をかけられる。</p>
+
+    <h3>researcher</h3>
+    <p>外部 API ドキュメントなどを読み込んで、要点だけ持ち帰る。WebFetch を多用する作業向き。</p>
+
+    <h2>権限を絞ることで安全に</h2>
+    <p>
+      サブエージェントの <code>tools</code> を限定すると、想定外の操作を防げます。
+      たとえば code-reviewer に <code>Edit</code> や <code>Write</code> を渡さないことで、
+      「レビュー中に勝手にコードを書き換えられる」事故を防げます。
+    </p>
+<pre><code>---
+name: code-reviewer
+tools: Read, Grep, Glob, Bash(git diff:*)
+---</code></pre>
+    <p>
+      <code>Bash(git diff:*)</code> のように、Bash ツールでも特定コマンドだけを許可できます。
+    </p>
+
+    <h2>呼び出しの結果はどう戻る?</h2>
+    <p>
+      サブエージェントが返した <strong>最終メッセージのみ</strong> がメインの会話に戻ります。
+      途中の調査ログや試行錯誤はメインのコンテキストに入りません。これがコンテキスト節約の核心です。
+    </p>
+
+    <div class="warning">
+      サブエージェントは <strong>ステートレス</strong> です。同じ会話で 2 回呼んでも、
+      前回のことは覚えていません。引き継ぎたい情報は呼び出し側のメッセージに含めます。
+    </div>
+
+    <h2>このチャプターのまとめ</h2>
+    <ul>
+      <li>サブエージェントはコンテキスト分離と役割分担のための仕組み</li>
+      <li>定義は <code>.claude/agents/*.md</code>、フロントマターと本文で書く</li>
+      <li><code>description</code> の書き方が自動呼び出しの精度を決める</li>
+      <li><code>tools</code> を絞ると安全性が上がる</li>
+    </ul>
+
+    <div class="step-nav">
+      <a href="03-custom-commands.html">
+        <span class="nav-label">← 前のチャプター</span>
+        <span class="nav-title">A3: カスタムコマンド</span>
+      </a>
+      <a class="next" href="05-hooks.html">
+        <span class="nav-label">次のチャプター →</span>
+        <span class="nav-title">A5: フック実践</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>

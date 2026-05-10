@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A9: 自動化レシピ集 - Claude Code はじめの一歩</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="site-title"><a href="../index.html">Claude Code はじめの一歩</a></div>
+    <div class="nav-section">
+      <h3>入門ステップ</h3>
+      <ul class="nav-list">
+        <li><a href="../steps/01-what-is-claude-code.html"><span class="step-number">01</span>Claude Codeとは</a></li>
+        <li><a href="../steps/02-prerequisites.html"><span class="step-number">02</span>用意するもの</a></li>
+        <li><a href="../steps/03-install.html"><span class="step-number">03</span>インストール</a></li>
+        <li><a href="../steps/04-first-launch.html"><span class="step-number">04</span>はじめての起動</a></li>
+        <li><a href="../steps/05-first-conversation.html"><span class="step-number">05</span>はじめての会話</a></li>
+        <li><a href="../steps/06-ask-about-files.html"><span class="step-number">06</span>ファイルを読ませる</a></li>
+        <li><a href="../steps/07-edit-files.html"><span class="step-number">07</span>ファイルを編集させる</a></li>
+        <li><a href="../steps/08-run-command.html"><span class="step-number">08</span>コマンドを実行させる</a></li>
+        <li><a href="../steps/09-permission.html"><span class="step-number">09</span>許可の仕組み</a></li>
+        <li><a href="../steps/10-slash-commands.html"><span class="step-number">10</span>スラッシュコマンド</a></li>
+        <li><a href="../steps/11-claude-md.html"><span class="step-number">11</span>CLAUDE.md</a></li>
+        <li><a href="../steps/12-plan-mode.html"><span class="step-number">12</span>計画モード</a></li>
+        <li><a href="../steps/13-resume.html"><span class="step-number">13</span>続きから始める</a></li>
+        <li><a href="../steps/14-tips.html"><span class="step-number">14</span>上手に使うコツ</a></li>
+        <li><a href="../steps/15-next-step.html"><span class="step-number">15</span>次の一歩</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>応用編</h3>
+      <ul class="nav-list">
+        <li><a href="01-project-flow.html"><span class="step-number">A1</span>プロジェクト運用</a></li>
+        <li><a href="02-claude-md-deep.html"><span class="step-number">A2</span>CLAUDE.md 詳細</a></li>
+        <li><a href="03-custom-commands.html"><span class="step-number">A3</span>カスタムコマンド</a></li>
+        <li><a href="04-subagents.html"><span class="step-number">A4</span>サブエージェント</a></li>
+        <li><a href="05-hooks.html"><span class="step-number">A5</span>フック実践</a></li>
+        <li><a href="06-mcp.html"><span class="step-number">A6</span>MCPサーバー</a></li>
+        <li><a href="07-skills.html"><span class="step-number">A7</span>スキル活用</a></li>
+        <li><a href="08-settings.html"><span class="step-number">A8</span>設定ファイル</a></li>
+        <li><a href="09-recipes.html"><span class="step-number">A9</span>自動化レシピ</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h3>リファレンス</h3>
+      <ul class="nav-list">
+        <li><a href="../glossary/index.html">用語集</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="step-label">応用編 A9</div>
+    <h1>自動化レシピ集</h1>
+
+    <div class="goal-box">
+      <h2>このチャプターのゴール</h2>
+      <ul>
+        <li>これまで学んだ機能を <strong>組み合わせて</strong> 実用ワークフローを作る</li>
+        <li>すぐ真似できる 5 つのレシピを手元に持って帰る</li>
+      </ul>
+    </div>
+
+    <h2>レシピ 1: 「保存するだけで型チェック・整形・テスト」</h2>
+    <p>
+      Claude が編集を加えたら、自動で format → typecheck → 関連テスト実行までやらせるレシピ。
+      失敗があれば Claude に戻って自動で修正に動いてくれます。
+    </p>
+<pre><code><span style="color:#7dcfff">.claude/settings.json</span>
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pnpm format && pnpm typecheck && pnpm test --run --changed"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+    <p>
+      <a class="term" href="../glossary/hook.html">フック</a> 1 個で完結。
+      失敗ログがそのまま Claude に渡るので、Claude 自身が対応に動きます。
+    </p>
+
+    <h2>レシピ 2: 「PR ドラフトをワンコマンドで」</h2>
+    <p>
+      ブランチで作業した内容をまとめて、PR タイトル・本文・テストプランを自動生成するワークフロー。
+    </p>
+<pre><code><span style="color:#7dcfff">.claude/commands/pr.md</span>
+---
+description: PR の説明を生成し、gh pr create で送信する
+allowed-tools: Bash
+argument-hint: "[base-branch (default: main)]"
+---
+
+base ブランチ: $ARGUMENTS (空なら main)
+
+以下の手順で進めてください。
+1. 現在のブランチ名と差分を確認
+   - !`git branch --show-current`
+   - !`git diff origin/${ARGUMENTS:-main}...HEAD --stat`
+2. 差分を読んで PR 本文を Markdown で起稿
+   セクション: 概要 / 変更点 / テスト方法 / リスク
+3. `gh pr create --base ${ARGUMENTS:-main} --title "..." --body "..."`
+   を実行して PR を作る</code></pre>
+    <p>
+      呼び出すときは <code>/pr</code> または <code>/pr develop</code> のように。
+      <a class="term" href="../glossary/slash-command.html">カスタムコマンド</a> +
+      <a class="term" href="../glossary/git.html">Git</a> + GitHub CLI の合わせ技です。
+    </p>
+
+    <h2>レシピ 3: 「セキュリティガード — 機密情報を絶対に読ませない・送らせない」</h2>
+<pre><code><span style="color:#7dcfff">.claude/settings.json</span>
+{
+  "permissions": {
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/secrets/**)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Bash(cat .env:*)",
+      "Bash(env)",
+      "Bash(printenv:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const i=JSON.parse(require('fs').readFileSync(0));const cmd=i.tool_input.command;if(/AKIA|sk-ant|ghp_|github_pat_/i.test(cmd)){console.error('blocked: secret-like pattern');process.exit(2)}\""
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+    <p>
+      ポイントは <strong>2 重防御</strong>。<code>permissions.deny</code> で読ませず、
+      <a class="term" href="../glossary/hook.html">フック</a> でコマンド内容に機密パターンが現れたら強制ブロック。
+    </p>
+
+    <h2>レシピ 4: 「コードレビュー専門エージェント+定期実行」</h2>
+    <p>
+      <a class="term" href="../glossary/subagent.html">サブエージェント</a> として code-reviewer を定義し、
+      <a class="term" href="../glossary/slash-command.html">カスタムコマンド</a> から呼び出す。
+      コミット直前にチェックする習慣が作れます。
+    </p>
+<pre><code><span style="color:#7dcfff">.claude/agents/code-reviewer.md</span>
+---
+name: code-reviewer
+description: ステージ済みの差分を読んでレビューする。コミット前のチェックに使う。
+tools: Read, Grep, Glob, Bash(git diff:*), Bash(git status)
+---
+
+シニアレビュアとして以下を確認:
+- バグ・null 安全性・型不整合
+- 命名の一貫性
+- テストの抜け
+- セキュリティ (SQLi, XSS, 機密漏れ)
+
+出力は Critical / Suggestion / Nits の 3 セクション。
+何も問題なければ「✅ 問題ありません」とだけ。</code></pre>
+<pre><code><span style="color:#7dcfff">.claude/commands/review.md</span>
+---
+description: ステージ済みの差分をレビュー
+---
+
+code-reviewer サブエージェントを使って、いまステージされている差分をレビューしてください。
+レビュー後、修正すべき指摘があれば自分でも直してください (Critical のみ)。</code></pre>
+
+    <h2>レシピ 5: 「終了したら通知 + ログを残す」</h2>
+    <p>
+      長時間の作業を頼んでパソコンを離れたいときに便利。
+      <code>Stop</code> フックで通知 + 監査ログをファイルに残します。
+    </p>
+<pre><code>{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude が応答完了\" sound name \"Pop\"'"
+          },
+          {
+            "type": "command",
+            "command": "echo \"$(date -u +%FT%TZ) session=$(jq -r .session_id) stop\" >> ~/.claude/audit.log"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+    <p>
+      Windows なら <code>powershell -Command "..."</code>、Linux なら <code>notify-send</code> に置き換え。
+    </p>
+
+    <h2>組み合わせの考え方</h2>
+    <p>
+      自動化を組み立てるとき、目的別に道具を選ぶと迷いません。
+    </p>
+    <table>
+      <thead><tr><th>やりたいこと</th><th>適した道具</th></tr></thead>
+      <tbody>
+        <tr><td>毎回同じ依頼をしたい</td><td>カスタム <a class="term" href="../glossary/slash-command.html">スラッシュコマンド</a></td></tr>
+        <tr><td>専門領域を切り出したい</td><td><a class="term" href="../glossary/subagent.html">サブエージェント</a></td></tr>
+        <tr><td>ある操作の前後に何かしたい</td><td><a class="term" href="../glossary/hook.html">フック</a></td></tr>
+        <tr><td>外部システムと連携したい</td><td><a class="term" href="../glossary/mcp.html">MCP</a></td></tr>
+        <tr><td>特定領域の知識を渡したい</td><td><a class="term" href="../glossary/skill.html">スキル</a></td></tr>
+        <tr><td>常時のお願いをしたい</td><td><a class="term" href="../glossary/claude-md.html">CLAUDE.md</a></td></tr>
+        <tr><td>強制ルールを敷きたい</td><td><a class="term" href="../glossary/settings-json.html">settings.json</a> deny + フック</td></tr>
+      </tbody>
+    </table>
+
+    <h2>運用のコツ</h2>
+    <ul>
+      <li><strong>少しずつ追加する</strong> — フックや許可ルールを一度に大量に書くと、原因切り分けが大変</li>
+      <li><strong>チームに共有する</strong> — <code>.claude/</code> を Git にコミット (ローカル設定は除く)</li>
+      <li><strong>レビュー対象にする</strong> — 設定ファイル・フック・サブエージェント定義の変更は PR レビューの対象に</li>
+      <li><strong>Claude に診断してもらう</strong> — 「この settings.json と hooks にリスクがあれば指摘して」と聞くと効果的</li>
+    </ul>
+
+    <div class="tip">
+      自動化を増やしすぎると <strong>「Claude が何をしているのか分からない」</strong> 状態に陥りがちです。
+      自動で動くものには「<strong>なぜそれが動いたか</strong>」がログから追えるようにしておきましょう。
+    </div>
+
+    <h2>このチャプターのまとめ</h2>
+    <ul>
+      <li>5 つのレシピ: フォーマット&検証・PR 自動化・機密ガード・レビューエージェント・通知ログ</li>
+      <li>道具を目的別に選び、少しずつ積み上げる</li>
+      <li>設定の変更も Git 管理 / レビュー対象に</li>
+    </ul>
+
+    <h2>応用編のまとめ</h2>
+    <p>
+      ここまで読んだあなたは、Claude Code を <strong>自分の働き方に合わせて作り変える</strong> ための
+      道具を一通り持っています。
+    </p>
+    <ul>
+      <li>プロジェクト運用と CLAUDE.md で土台を整え</li>
+      <li>カスタムコマンド・サブエージェント・スキルで「型」を作り</li>
+      <li>フックと許可ルールで安全網を張り</li>
+      <li>MCP で外の世界とつなぐ</li>
+    </ul>
+    <p>
+      最初はひとつだけ ── 自分が一番繰り返している作業に対して、レシピを 1 つ書いてみてください。
+      そこから自然と「これも自動化したい」が増えていきます。
+    </p>
+
+    <div class="step-nav">
+      <a href="08-settings.html">
+        <span class="nav-label">← 前のチャプター</span>
+        <span class="nav-title">A8: 設定ファイル</span>
+      </a>
+      <a class="next" href="../glossary/index.html">
+        <span class="nav-label">用語集 →</span>
+        <span class="nav-title">REFERENCE</span>
+      </a>
+    </div>
+  </main>
+</div>
+<script src="../js/script.js"></script>
+</body>
+</html>
