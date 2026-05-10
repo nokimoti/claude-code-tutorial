@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ワーキングディレクトリ - 用語集 - Claude Code はじめの一歩</title>
+<title>プロジェクトフォルダ - 用語集 - Claude Code はじめの一歩</title>
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -38,28 +38,28 @@
 
   <main class="main">
     <div class="step-label">用語集</div>
-    <h1>ワーキングディレクトリ (Working Directory)</h1>
+    <h1>プロジェクトフォルダ (ワーキングディレクトリ)</h1>
 
     <div class="definition">
-      <a class="term" href="terminal.html">ターミナル</a> でいま「自分がいる」フォルダのこと。
-      カレントディレクトリ (current directory) とも呼ばれます。
+      Claude Desktop アプリで <strong>「いま作業対象として開いているフォルダ」</strong> のこと。
+      Claude はこのフォルダの中身を見たり、ファイルを書き換えたりします。
     </div>
 
-    <h2>「いる場所」のイメージ</h2>
+    <h2>「いま見ているフォルダ」のイメージ</h2>
     <p>
-      ターミナルでは常に「あなたはどこかのフォルダの中にいる」状態になっています。
-      その「どこ」がワーキングディレクトリです。
-      <code>pwd</code> (Linux/macOS) または <code>pwd</code> / <code>Get-Location</code> (PowerShell) で現在地を確認できます。
+      アプリのメニューから「フォルダを開く」を選ぶと、選んだフォルダがプロジェクトフォルダになります。
+      Claude が「このプロジェクト」「このフォルダ」と言ったら、ここを指しています。
     </p>
     <p>
-      <code>cd</code> コマンドで別のフォルダに移動できます。
+      別のフォルダで作業したくなったら、いつでも「フォルダを切り替える」で別の場所を開けます。
     </p>
-<pre><code>cd C:\Users\you\projects\my-app</code></pre>
 
-    <h2>Claude Code との関係</h2>
+    <h2>ワーキングディレクトリとも呼ばれる</h2>
     <p>
-      Claude Code は <strong>起動したときのワーキングディレクトリを「作業対象のプロジェクト」として認識</strong> します。
-      なので「このプロジェクト」「このフォルダ」と言ったときは、ワーキングディレクトリのことを指します。
+      コマンドラインの世界では、同じ意味の言葉として
+      <strong>ワーキングディレクトリ (working directory)</strong> や
+      <strong>カレントディレクトリ (current directory)</strong> といった表現が使われます。
+      意味は同じです。
     </p>
 
     <h2>関連ステップ</h2>

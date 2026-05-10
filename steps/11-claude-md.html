@@ -52,7 +52,7 @@
 
     <h2>毎回同じ説明をするのは疲れる</h2>
     <p>
-      Claude Code を起動するたびに「このプロジェクトでは TypeScript を使ってます」「テストは <code>npm test</code> で動きます」
+      アプリで新しい会話を始めるたびに「このプロジェクトでは TypeScript を使ってます」「テストは <code>npm test</code> で動きます」
       「コミットメッセージは英語で書いてください」…と毎回伝えるのは大変です。
     </p>
     <p>
@@ -62,7 +62,7 @@
     <h2>CLAUDE.md とは</h2>
     <p>
       プロジェクトのルートに <code>CLAUDE.md</code> という名前のファイルを置いておくと、
-      Claude Code は <strong>セッション開始時に必ず読み込んで</strong>、その内容を踏まえて応答します。
+      Claude Desktop アプリは <strong>会話開始時に必ず読み込んで</strong>、その内容を踏まえて応答します。
       <a class="term" href="../glossary/markdown.html">Markdown</a> 形式で書ける、Claude 専用の指示書です。
     </p>
 
@@ -73,12 +73,14 @@
 <pre><code>/init</code></pre>
     <p>
       Claude が自動でプロジェクト構造を分析して、CLAUDE.md の雛形を提案してくれます。
-      内容を確認して、Yes を押せば作成完了です。
+      内容を確認して「許可する」を押せば作成完了です。
     </p>
 
     <h2>自分で書く場合のサンプル</h2>
     <p>
       手書きする場合は、こんな内容を書いておくと便利です。
+      Claude に「<code>CLAUDE.md</code> を作って、以下の内容を書いて」と頼んでもいいですし、
+      普通のテキストエディタ (メモ帳・TextEdit など) で直接書いても OK です。
     </p>
 <pre><code># プロジェクト概要
 社内向けタスク管理アプリのバックエンド。
@@ -107,19 +109,20 @@
     <h2>2 種類の CLAUDE.md</h2>
     <ul>
       <li>
-        <strong>プロジェクト用</strong> = <code>./CLAUDE.md</code> (リポジトリのルート)<br>
+        <strong>プロジェクト用</strong> = <code>./CLAUDE.md</code> (プロジェクトフォルダ直下)<br>
         そのプロジェクトを触る人全員に効きます。Git にコミットします。
       </li>
       <li>
         <strong>個人用</strong> = <code>~/.claude/CLAUDE.md</code> (ホームディレクトリ)<br>
         自分のパソコンでだけ効く。「日本語で答えて」など個人の好みを書きます。
+        アプリの設定画面の「グローバル指示」から GUI で編集することもできます。
       </li>
     </ul>
 
     <h2>編集したらすぐ反映される?</h2>
     <p>
-      CLAUDE.md を編集しても、実行中のセッションには反映されません。
-      <code>/clear</code> で会話をリセットするか、Claude Code を再起動すると、新しい CLAUDE.md が読み込まれます。
+      CLAUDE.md を編集しても、実行中の会話には反映されません。
+      <code>/clear</code> で会話をリセットするか、新しい会話を始めると、新しい CLAUDE.md が読み込まれます。
     </p>
 
     <div class="tip">
@@ -130,7 +133,7 @@
     <h2>長すぎる CLAUDE.md は逆効果</h2>
     <p>
       毎回読み込まれる = 毎回 <a class="term" href="../glossary/token.html">トークン</a> を消費する、ということです。
-      数千行の長文を書くと、セッションのスタート時点で大量のコンテキストを食ってしまいます。
+      数千行の長文を書くと、会話のスタート時点で大量のコンテキストを食ってしまいます。
     </p>
     <div class="warning">
       長くなりそうなら、参照用ドキュメントを別ファイルに分けて、CLAUDE.md からは

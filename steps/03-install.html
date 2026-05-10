@@ -45,77 +45,84 @@
     <div class="goal-box">
       <h2>このステップのゴール</h2>
       <ul>
-        <li>Claude Code を自分のパソコンにインストールする</li>
-        <li>インストールが成功したことを確認する</li>
+        <li><a class="term" href="../glossary/claude-desktop.html">Claude Desktop アプリ</a> をパソコンにインストールする</li>
+        <li>アプリのアイコンをクリックして起動できる状態にする</li>
       </ul>
     </div>
 
-    <h2>1コマンドで入ります</h2>
+    <h2>1. ダウンロードページを開く</h2>
     <p>
-      Claude Code のインストールは、<a class="term" href="../glossary/terminal.html">ターミナル</a> で次のコマンドを 1 行打つだけです。
+      ブラウザで <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a> を開きます。
+      お使いの OS が自動で判別され、ダウンロード用のボタンが表示されます。
     </p>
-<pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
-    <p>
-      <code>npm</code> は <a class="term" href="../glossary/npm.html">npm</a> といって、
-      <a class="term" href="../glossary/node-js.html">Node.js</a> 用のパッケージ管理ツールです。
-      <code>-g</code> は「グローバル(=パソコン全体)にインストールする」という意味で、
-      これを付けるとどのフォルダからでも <code>claude</code> コマンドが使えるようになります。
-    </p>
+    <ul>
+      <li><strong>Windows</strong>: 「Download for Windows」→ <code>.exe</code> ファイルがダウンロードされます</li>
+      <li><strong>macOS</strong>: 「Download for Mac」→ <code>.dmg</code> ファイルがダウンロードされます</li>
+    </ul>
 
-    <div class="note">
-      ダウンロードに数分かかります。途中で止まったように見えてもキャンセルせず待ちましょう。
+    <h2>2. インストーラーを実行する</h2>
+
+    <h3>Windows の場合</h3>
+    <ol>
+      <li>ダウンロードした <code>Claude-Setup.exe</code> をダブルクリック</li>
+      <li>「ユーザーアカウント制御」が出たら「はい」</li>
+      <li>インストーラーの画面に従って「次へ」を進める</li>
+      <li>完了するとデスクトップとスタートメニューに <strong>Claude</strong> アイコンが追加されます</li>
+    </ol>
+
+    <h3>macOS の場合</h3>
+    <ol>
+      <li>ダウンロードした <code>Claude.dmg</code> をダブルクリックして開く</li>
+      <li>表示されたウィンドウの中で、<strong>Claude のアイコンを「Applications」フォルダにドラッグ</strong></li>
+      <li>「Applications」フォルダから <strong>Claude</strong> をダブルクリックで起動</li>
+      <li>初回起動時に「ダウンロードされたアプリです。開いてもよいですか?」と聞かれるので「開く」</li>
+    </ol>
+
+    <div class="tip">
+      Mac でアプリが「壊れているため開けません」と表示された場合は、
+      システム設定 → プライバシーとセキュリティ で「このまま開く」を選んでください。
     </div>
 
-    <h2>うまく入ったか確認する</h2>
+    <h2>3. インストールできたか確認</h2>
     <p>
-      インストールが終わったら、ターミナルで次のコマンドを打ってみます。
+      アプリ一覧 (Windows のスタートメニュー、macOS の Launchpad / Applications フォルダ) に
+      <strong>Claude</strong> のアイコンが見つかれば成功です。
     </p>
-<pre><code>claude --version</code></pre>
     <p>
-      <code>1.x.x (Claude Code)</code> のようなバージョンが表示されれば成功です。
+      クリックして起動すると、ログイン画面が現れます。次の STEP 04 で初回起動を扱います。
     </p>
 
     <h2>うまくいかないときは</h2>
-    <h3>「command not found: npm」と出た</h3>
+    <h3>ダウンロードボタンが見つからない</h3>
     <p>
-      <a class="term" href="../glossary/node-js.html">Node.js</a> がまだ入っていない可能性が高いです。
-      STEP 02 に戻って Node.js をインストールしてから、もう一度試してください。
+      ブラウザの言語設定が日本語の場合、「ダウンロード」ボタンになっていることがあります。
+      公式トップ <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> 右下のリンクから辿ることもできます。
     </p>
-    <h3>「Permission denied」「EACCES」と出た (macOS / Linux)</h3>
-    <p>
-      パソコンの設定によっては、グローバルインストールに管理者権限が必要なことがあります。
-      その場合は次のコマンドで <code>sudo</code> を付けて実行します。
-    </p>
-<pre><code>sudo npm install -g @anthropic-ai/claude-code</code></pre>
 
-    <h3>「claude: command not found」と出る (インストール直後)</h3>
+    <h3>セキュリティソフトに止められた</h3>
     <p>
-      ターミナルが古い情報のままになっていることがあります。
-      ターミナルを <strong>一度閉じて開き直して</strong> から、もう一度 <code>claude --version</code> を試してください。
+      会社支給のパソコンなどでは、セキュリティソフトがインストーラーをブロックすることがあります。
+      情報システム部門に相談してください。
     </p>
 
     <div class="warning">
-      Windows の場合、稀に PowerShell の「実行ポリシー」が厳しく設定されていて
-      <code>claude</code> が起動できないことがあります。
-      その場合は管理者として PowerShell を開き、
-      <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code> を実行してください。
+      <strong>必ず公式サイトからダウンロードしてください。</strong>
+      検索結果で似た名前の偽サイトが上位に出ることがあります。
+      URL が <code>claude.ai</code> または <code>anthropic.com</code> であることを確認しましょう。
     </div>
 
-    <h2>アップデートのしかた (将来の参考に)</h2>
+    <h2>アップデートのしかた</h2>
     <p>
-      Claude Code は頻繁に新機能が追加されます。最新版に上げるには、
-      同じく <code>npm</code> で次のコマンドを打ちます。
-    </p>
-<pre><code>npm update -g @anthropic-ai/claude-code</code></pre>
-    <p>
-      また、Claude Code 自身が新しいバージョンを検知すると、起動時に「アップデートがあります」と教えてくれます。
+      Claude Desktop アプリは、新しいバージョンが出ると自動でお知らせしてくれます。
+      画面に「アップデートがあります」と表示されたら、案内に従ってボタンをクリックするだけです。
+      手動でやることはほとんどありません。
     </p>
 
     <h2>このステップのまとめ</h2>
     <ul>
-      <li>インストールは <code>npm install -g @anthropic-ai/claude-code</code> の 1 行で完結</li>
-      <li>確認は <code>claude --version</code></li>
-      <li>うまくいかないときは Node.js が入っているか・ターミナルを再起動したかを確認</li>
+      <li>公式サイト <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a> からインストーラーをダウンロード</li>
+      <li>普通のアプリと同じ手順でインストール</li>
+      <li>アプリ一覧に Claude が現れれば完了</li>
     </ul>
 
     <div class="step-nav">

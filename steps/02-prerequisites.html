@@ -45,59 +45,35 @@
     <div class="goal-box">
       <h2>このステップのゴール</h2>
       <ul>
-        <li>Claude Code を使うために必要な3つのものを把握する</li>
-        <li><a class="term" href="../glossary/node-js.html">Node.js</a> がパソコンに入っているかを確認できる</li>
+        <li>Claude Code を始めるために必要な 2 つのものを把握する</li>
+        <li>自分のパソコンが対応 OS かどうかを確認する</li>
       </ul>
     </div>
 
-    <h2>必要なものは大きく3つ</h2>
+    <h2>必要なものは大きく2つだけ</h2>
     <ol>
-      <li><strong><a class="term" href="../glossary/terminal.html">ターミナル</a></strong> — お使いの OS に最初から入っています</li>
-      <li><strong><a class="term" href="../glossary/node-js.html">Node.js</a></strong> — Claude Code 本体を動かすために必要</li>
+      <li><strong>対応 OS のパソコン</strong> — Windows 10 以降 / macOS 12 以降</li>
       <li><strong>Claude のアカウント</strong> — Anthropic のサービスを使う権利</li>
     </ol>
-
-    <h2>1. ターミナル</h2>
     <p>
-      <a class="term" href="../glossary/terminal.html">ターミナル</a> は、文字でパソコンを操作するための窓口です。
-      OS によって名前が違いますが、どの OS にも最初から入っています。
+      この 2 つさえあれば始められます。プログラミング言語の知識や、特殊な開発環境のセットアップは不要です。
     </p>
+
+    <h2>1. 対応 OS のパソコン</h2>
     <ul>
-      <li><strong>Windows</strong>: PowerShell または Windows Terminal</li>
-      <li><strong>macOS</strong>: ターミナル (Terminal.app)</li>
-      <li><strong>Linux</strong>: GNOME Terminal、Konsole など</li>
+      <li><strong>Windows</strong>: 10 / 11 (64bit)</li>
+      <li><strong>macOS</strong>: 12 (Monterey) 以降</li>
+      <li><strong>Linux</strong>: 多くのディストリビューションに対応 (アプリは AppImage / deb / rpm で配布)</li>
     </ul>
     <p>
-      まずは「ターミナル」というアプリを見つけて、起動できることを確認しておきましょう。
-      起動するとこんな画面が開きます。
+      自分のパソコンの OS バージョンの確認方法:
     </p>
-<pre><code>PS C:\Users\you&gt; _</code></pre>
-    <p>
-      この <code>&gt;</code> や <code>$</code> といった記号のあとに文字を入力できる場所のことを
-      <strong>プロンプト</strong> と呼びます (混乱しやすいので注意:
-      AI に渡す指示文のことも <a class="term" href="../glossary/prompt.html">プロンプト</a> と呼びます)。
-    </p>
+    <ul>
+      <li><strong>Windows</strong>: 「設定」→「システム」→「バージョン情報」</li>
+      <li><strong>macOS</strong>: アップルメニュー→「この Mac について」</li>
+    </ul>
 
-    <h2>2. Node.js</h2>
-    <p>
-      <a class="term" href="../glossary/node-js.html">Node.js</a> は、JavaScript で書かれたプログラムをパソコン上で動かす仕組みです。
-      Claude Code は Node.js で動いているので、これが先に必要になります。
-    </p>
-    <p>
-      入っているかは、ターミナルで次のコマンドを実行すれば確認できます。
-    </p>
-<pre><code>node --version</code></pre>
-    <p>
-      <code>v20.x.x</code> のようにバージョン番号が出ればインストール済みです。
-      <code>command not found</code> や「コマンドではない」と出る場合は、まだ入っていません。
-      公式サイト <a href="https://nodejs.org/" target="_blank" rel="noopener">nodejs.org</a>
-      から LTS 版をダウンロードしてインストールしてください。
-    </p>
-    <div class="warning">
-      Claude Code は Node.js 18 以上が必要です。古すぎるバージョンが入っている場合は最新の LTS 版に更新しましょう。
-    </div>
-
-    <h2>3. Claude のアカウント</h2>
+    <h2>2. Claude のアカウント</h2>
     <p>
       Claude Code を使うには、課金プランの選択が必要です。
       最初に選ぶのは次のどちらかです。
@@ -105,7 +81,7 @@
     <ul>
       <li>
         <strong>Claude Pro / Max プラン</strong> (月額のサブスク) — 個人で使うならこれが手軽です。
-        ブラウザの claude.ai で使うものと同じプランで、Claude Code もそのまま使えます。
+        ブラウザの claude.ai で使うものと同じプランで、Claude Desktop アプリもそのまま使えます。
       </li>
       <li>
         <strong>API 利用 (従量課金)</strong> — <a class="term" href="../glossary/anthropic.html">Anthropic</a> の
@@ -123,12 +99,22 @@
       そのときに案内に従って契約することもできます。
     </div>
 
+    <h2>あると役立つもの (必須ではない)</h2>
+    <ul>
+      <li>
+        <strong>練習用のフォルダ</strong> — テキストファイルを置いて遊ぶ、空のフォルダがあると進めやすいです。
+        STEP 04 で作ります。
+      </li>
+      <li>
+        <strong>VS Code などのエディタ</strong> — Claude が編集した結果を別画面で確認したいときに便利。なくてもアプリ内で完結します。
+      </li>
+    </ul>
+
     <h2>このステップのまとめ</h2>
     <ul>
-      <li>必要なのは「ターミナル」「Node.js」「Claude アカウント」の3つ</li>
-      <li>ターミナルは OS に最初から入っている</li>
-      <li>Node.js は <code>node --version</code> で入っているか確認できる</li>
-      <li>アカウントは Pro プラン or API キーのどちらか (個人なら Pro が手軽)</li>
+      <li>必要なのは「対応 OS のパソコン」と「Claude アカウント」の 2 つだけ</li>
+      <li>Windows 10+ / macOS 12+ ならそのまま使える</li>
+      <li>個人なら Claude Pro プランから始めるのが手軽</li>
     </ul>
 
     <div class="step-nav">

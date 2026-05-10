@@ -52,9 +52,9 @@
 
     <h2>許可は「まとめて」設定もできる</h2>
     <p>
-      STEP 07・08 で、ファイル編集やコマンド実行のたびに「Yes / No」を聞かれることを見ました。
+      STEP 07・08 で、ファイル編集やコマンド実行のたびに「許可する / いいえ」を聞かれることを見ました。
       でも、毎回押すのが面倒なときもあります。
-      Claude Code には、<strong>4 段階の <a class="term" href="../glossary/permission-mode.html">許可モード</a></strong> が用意されています。
+      Claude Desktop アプリには、<strong>4 段階の <a class="term" href="../glossary/permission-mode.html">許可モード</a></strong> が用意されています。
     </p>
 
     <h2>4 つのモード</h2>
@@ -64,22 +64,22 @@
       </thead>
       <tbody>
         <tr>
-          <td><strong>Default</strong> (標準)</td>
-          <td>編集・コマンド実行のたびに確認</td>
+          <td><strong>標準</strong> (Default)</td>
+          <td>編集・コマンド実行のたびにダイアログで確認</td>
           <td>慣れないうち、本番環境</td>
         </tr>
         <tr>
-          <td><strong>Plan</strong> (計画)</td>
+          <td><strong>計画</strong> (Plan)</td>
           <td>調査・読み取りのみ。一切書き換えない</td>
           <td>方針を相談したいとき (STEP 12 で詳しく)</td>
         </tr>
         <tr>
-          <td><strong>Accept Edits</strong></td>
+          <td><strong>編集を自動許可</strong> (Accept Edits)</td>
           <td>ファイル編集は自動許可、コマンド実行は確認</td>
           <td>大量に編集が続くと分かっているとき</td>
         </tr>
         <tr>
-          <td><strong>Bypass</strong> (危険)</td>
+          <td><strong>すべて許可</strong> (Bypass・危険)</td>
           <td>すべて確認なし</td>
           <td>使い捨ての環境、隔離されたコンテナ内</td>
         </tr>
@@ -88,27 +88,24 @@
 
     <h2>切り替え方</h2>
     <p>
-      入力欄で <code>Shift + Tab</code> を押すと、4 つのモードを順番に切り替えられます。
-      画面の下にいま選んでいるモードが表示されているはずです。
+      入力欄の近くにある <strong>モード切替ボタン</strong> (盾やシールドのアイコンが多い) をクリックすると、
+      4 つのモードを順番に切り替えられます。
+      キーボードでは <code>Shift + Tab</code> でも切り替えられます。
     </p>
-<pre><code>⏵⏵ accept edits on (shift+tab to cycle)</code></pre>
+    <p>
+      画面下部に現在のモードが常時表示されているので、いま自分がどのモードなのかは一目でわかります。
+    </p>
+<pre><code>🛡  モード: 編集を自動許可 (Shift+Tab で切替)</code></pre>
 
-    <h2>細かい許可ルールは <a class="term" href="../glossary/settings-json.html">settings.json</a> で</h2>
+    <h2>細かい許可ルールはアプリの設定画面 / <a class="term" href="../glossary/settings-json.html">settings.json</a> で</h2>
     <p>
       「<code>npm install</code> はいつも許可」「<code>rm</code> は絶対に許可しない」のように、
-      コマンド単位で細かい許可ルールを書きたい場合は、
-      <a class="term" href="../glossary/settings-json.html">settings.json</a> という設定ファイルを使います。
+      コマンド単位で細かい許可ルールを書きたい場合は、<strong>設定画面</strong> から行えます。
     </p>
     <p>
-      設定の優先順位はこの順:
-    </p>
-    <ol>
-      <li>プロジェクトの <code>.claude/settings.local.json</code> (自分専用)</li>
-      <li>プロジェクトの <code>.claude/settings.json</code> (チーム共有)</li>
-      <li>ユーザーの <code>~/.claude/settings.json</code> (パソコン全体)</li>
-    </ol>
-    <p>
-      たとえばこんなふうに書きます。
+      画面左下の歯車アイコン (⚙) →「権限」を開くと、
+      「いつも許可するコマンド」「絶対に拒否するコマンド」のリストが編集できます。
+      上級者は同じ内容を <a class="term" href="../glossary/settings-json.html">settings.json</a> に直接書くこともできます。
     </p>
 <pre><code>{
   "permissions": {
@@ -123,9 +120,9 @@
   }
 }</code></pre>
 
-    <h2>「Bypass」モードの注意</h2>
+    <h2>「すべて許可」モードの注意</h2>
     <div class="warning">
-      Bypass モード (<code>--dangerously-skip-permissions</code>) は強力ですが、
+      「すべて許可」モード (Bypass) は強力ですが、
       Claude が予期しないコマンドを実行しても止められません。
       <strong>本番環境やメインの作業フォルダでは絶対に使わないでください。</strong>
       使うなら Docker コンテナや使い捨ての VM の中だけに限定しましょう。
@@ -133,22 +130,22 @@
 
     <h2>慣れるまでの推奨設定</h2>
     <ol>
-      <li>最初の数日は <strong>Default モード</strong> のままで使う</li>
-      <li>毎回 1.Yes を押して、何が起きているか観察する</li>
-      <li>慣れてきたら <strong>Accept Edits</strong> に切り替えてみる</li>
-      <li>頻繁に許可するコマンド (<code>git status</code> など) は <a class="term" href="../glossary/settings-json.html">settings.json</a> に登録する</li>
+      <li>最初の数日は <strong>標準モード</strong> のままで使う</li>
+      <li>毎回「許可する」を押して、何が起きているか観察する</li>
+      <li>慣れてきたら <strong>編集を自動許可</strong> モードに切り替えてみる</li>
+      <li>頻繁に許可するコマンド (<code>git status</code> など) は設定画面から登録する</li>
     </ol>
 
     <div class="tip">
-      入力欄で <code>/permissions</code> と打つと、いま許可されている操作と禁止されている操作の一覧が表示されます。
+      入力欄で <code>/permissions</code> と打つと、いま許可されている操作と禁止されている操作の一覧がチャット欄に表示されます。
     </div>
 
     <h2>このステップのまとめ</h2>
     <ul>
-      <li>許可モードは <strong>Default / Plan / Accept Edits / Bypass</strong> の 4 段階</li>
-      <li><code>Shift + Tab</code> で切り替えられる</li>
-      <li>細かいルールは <a class="term" href="../glossary/settings-json.html">settings.json</a> で書ける</li>
-      <li>Bypass は必要なときだけ、隔離された環境でだけ使う</li>
+      <li>許可モードは <strong>標準 / 計画 / 編集を自動許可 / すべて許可</strong> の 4 段階</li>
+      <li>モード切替ボタンか <code>Shift + Tab</code> で切り替えられる</li>
+      <li>細かいルールは設定画面 (or <a class="term" href="../glossary/settings-json.html">settings.json</a>) で書ける</li>
+      <li>「すべて許可」は必要なときだけ、隔離された環境でだけ使う</li>
     </ul>
 
     <div class="step-nav">

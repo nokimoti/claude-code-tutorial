@@ -38,11 +38,16 @@
 
   <main class="main">
     <div class="step-label">用語集</div>
-    <h1>CLI (Command Line Interface)</h1>
+    <h1>CLI (Command Line Interface) / コマンドライン版</h1>
 
     <div class="definition">
       キーボードから <strong>文字 (コマンド)</strong> を入力して操作する、ソフトウェアの操作方式。
       アイコンをクリックして使う GUI の対義語です。
+    </div>
+
+    <div class="note">
+      このサイトでは <a class="term" href="claude-desktop.html">Claude Desktop アプリ</a> を使うので、
+      CLI を直接使う場面はありません。「そういうものもあるんだな」程度の理解で大丈夫です。
     </div>
 
     <h2>もう少し詳しく</h2>
@@ -54,15 +59,24 @@
       これに対して、<a class="term" href="terminal.html">ターミナル</a> に文字を打って指示する操作方式を CLI と呼びます。
       慣れるまでは敷居が高く感じますが、大量の処理を一気に動かしたり、自動化したりするのが得意です。
     </p>
+
+    <h2>Claude Code には CLI 版もある</h2>
     <p>
-      Claude Code は CLI ツールですが、実際の操作はほぼ「日本語で話しかけるだけ」なので、
-      コマンドを覚えなくてもすぐ使えます。
+      Claude Code はもともとコマンドラインツールとして誕生しました。
+      開発者向けに <code>claude</code> コマンドで起動する <strong>CLI 版</strong> が今でも提供されています。
+    </p>
+    <ul>
+      <li>インストール: <a class="term" href="npm.html">npm</a> 経由 (<code>npm install -g @anthropic-ai/claude-code</code>)</li>
+      <li>動作環境: <a class="term" href="node-js.html">Node.js</a> 18 以上が必要</li>
+      <li>使い方: <a class="term" href="terminal.html">ターミナル</a> で <code>claude</code> と打って起動</li>
+    </ul>
+    <p>
+      機能はほぼ Desktop 版と同じです。コマンドラインに慣れた方や、サーバーで自動化したい場合に便利です。
     </p>
 
     <h2>関連ステップ</h2>
     <ul>
-      <li><a href="../steps/01-what-is-claude-code.html">STEP 01: Claude Codeとは</a></li>
-      <li><a href="../steps/04-first-launch.html">STEP 04: はじめての起動</a></li>
+      <li><a href="../steps/15-next-step.html">STEP 15: 次の一歩</a></li>
     </ul>
 
     <p style="margin-top: 40px;"><a href="index.html">← 用語集に戻る</a></p>

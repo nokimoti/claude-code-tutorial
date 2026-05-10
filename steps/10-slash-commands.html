@@ -52,9 +52,9 @@
 
     <h2>「<a class="term" href="../glossary/slash-command.html">スラッシュコマンド</a>」とは?</h2>
     <p>
-      入力欄の先頭に <code>/</code> を打つと、Claude にではなく <strong>Claude Code 自体</strong> に対する命令を送れます。
+      入力欄の先頭に <code>/</code> を打つと、Claude にではなく <strong>Claude Desktop アプリ自体</strong> に対する命令を送れます。
       これを <a class="term" href="../glossary/slash-command.html">スラッシュコマンド</a> といいます。
-      入力中に候補メニューが出るので、矢印キーで選んで Enter で実行できます。
+      入力すると候補メニューが入力欄の上にポップアップして、矢印キーやマウスで選んで実行できます。
     </p>
 
     <h2>覚えておきたい 5 つ</h2>
@@ -69,6 +69,7 @@
     <p>
       これまでの会話履歴をすべて忘れさせて、まっさらな状態にします。
       話題が大きく変わったときに使うと、<a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> を節約できて便利です。
+      アプリ画面の「+ 新しい会話」ボタンも同じ役割です。
     </p>
     <div class="tip">
       話題が変わるたびに <code>/clear</code> する習慣をつけると、料金もパフォーマンスもよくなります。
@@ -81,9 +82,9 @@
       新しいプロジェクトで Claude Code を初めて使うときの最初の一手です (詳しくは STEP 11)。
     </p>
 
-    <h3>4. <code>/exit</code> — 終了</h3>
+    <h3>4. <code>/exit</code> — セッションを閉じる</h3>
     <p>
-      セッションを終了します。<code>Ctrl + C</code> を 2 回押すのと同じ効果です。
+      現在のセッションを終了します。アプリ自体を閉じたいときは、ウィンドウの×ボタンで閉じます。
     </p>
 
     <h3>5. <code>/permissions</code> — 許可状況を確認</h3>
@@ -99,20 +100,23 @@
       <li><code>/status</code> — 現在の設定や接続状況を表示</li>
       <li><code>/agents</code> — <a class="term" href="../glossary/subagent.html">サブエージェント</a> の管理</li>
       <li><code>/mcp</code> — <a class="term" href="../glossary/mcp.html">MCP</a> サーバーの管理</li>
-      <li><code>/config</code> — 設定画面を開く</li>
+      <li><code>/config</code> — 設定画面を開く (画面左下の歯車と同じ)</li>
       <li><code>/review</code> — 現在の変更をレビュー</li>
     </ul>
 
     <h2>自分で作れる「カスタムスラッシュコマンド」</h2>
     <p>
       よく使うプロンプトをスラッシュコマンドとして登録できます。
-      たとえば <code>.claude/commands/test.md</code> という Markdown ファイルを作って、
-      中身に
+      アプリの設定画面の「カスタムコマンド」から GUI で作るほか、上級者は
+      プロジェクトフォルダの <code>.claude/commands/</code> に <a class="term" href="../glossary/markdown.html">Markdown</a> ファイルを置いても定義できます。
+    </p>
+    <p>
+      たとえば <code>.claude/commands/test.md</code> という名前で次のような内容を書いて保存します。
     </p>
 <pre><code>テストを実行して、失敗しているテストがあれば
 原因と修正方針を教えてください。</code></pre>
     <p>
-      と書いておくと、入力欄で <code>/test</code> と打つだけでこの依頼が送れるようになります。
+      すると入力欄で <code>/test</code> と打つだけでこの依頼が送れるようになります。
     </p>
 
     <div class="note">

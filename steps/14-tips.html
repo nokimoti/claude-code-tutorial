@@ -63,27 +63,27 @@
     <p>
       STEP 12 の繰り返しになりますが、これが効果が一番大きいクセです。
       新しい機能を追加するとき、複数ファイルにまたがる変更をするときは、
-      まず <code>Shift + Tab</code> でプランモードに入って計画を見るところから始めてください。
+      まずモード切替ボタン (or <code>Shift + Tab</code>) でプランモードに入って、計画を見るところから始めてください。
     </p>
 
     <h2>3. 「テストを書いて、実行して、結果を教えて」とセットで頼む</h2>
     <p>
       実装と検証を 1 つのお願いに含めると、Claude が <strong>自分で結果を確認して直してくれる</strong> ループに入ります。
     </p>
-<pre><code>&gt; この関数のテストを書いて、実行して、
-&gt; 失敗するなら直して、最終的にすべてグリーンにして</code></pre>
+<pre><code>この関数のテストを書いて、実行して、
+失敗するなら直して、最終的にすべてグリーンにして</code></pre>
 
     <h2>4. 期待する出力の形を見せる</h2>
     <p>
       文字で説明するより、求める結果のサンプルを 1 つ見せたほうが伝わります。
     </p>
-<pre><code>&gt; この CSV を JSON に変換するスクリプトを書いて。
-&gt; 出力はこういう形にしたい:
-&gt; [{"name": "山田", "age": 30}, ...]</code></pre>
+<pre><code>この CSV を JSON に変換するスクリプトを書いて。
+出力はこういう形にしたい:
+[{"name": "山田", "age": 30}, ...]</code></pre>
 
     <h2>5. 区切りで <code>/clear</code> する</h2>
     <p>
-      話題が変わるたびに <code>/clear</code> をする習慣をつけると、
+      話題が変わるたびに <code>/clear</code> をする (または「+ 新しい会話」を押す) 習慣をつけると、
       <a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> がきれいに保たれて、応答精度も料金もよくなります。
     </p>
     <ul>
@@ -97,8 +97,8 @@
       <strong>無理に修正させ続けるより一度戻す</strong> のがおすすめです。
     </p>
     <ul>
-      <li>編集を戻す: <code>git checkout .</code> あるいは「さっきの編集を全部戻して」</li>
-      <li>会話を巻き戻す: 入力欄で <code>Esc</code> を 2 回押すと、過去のメッセージから再開できます (<a class="term" href="../glossary/checkpoint.html">チェックポイント</a>)</li>
+      <li>編集を戻す: 「さっきの編集を全部戻して」と頼むか、<a class="term" href="../glossary/git.html">Git</a> で <code>git checkout .</code></li>
+      <li>会話を巻き戻す: メッセージにマウスを乗せると現れる「↶ 巻き戻す」ボタン、または <code>Esc</code> キーを 2 回押す (<a class="term" href="../glossary/checkpoint.html">チェックポイント</a>)</li>
     </ul>
     <p>
       そのうえで、最初の依頼の <strong>言い方を変えて</strong> やり直すほうが、結果的に早いことが多いです。
@@ -116,8 +116,8 @@
         Claude は素直に頑張るぶん、ハズすと大ハズしします。
       </li>
       <li>
-        <strong>Bypass モードを常用する</strong> —
-        慣れた頃が一番危ないです。常に Default か Accept Edits で。
+        <strong>「すべて許可」モードを常用する</strong> —
+        慣れた頃が一番危ないです。常に「標準」か「編集を自動許可」モードで。
       </li>
     </ul>
 

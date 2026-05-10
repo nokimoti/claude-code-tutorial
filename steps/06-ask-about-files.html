@@ -45,15 +45,19 @@
     <div class="goal-box">
       <h2>このステップのゴール</h2>
       <ul>
-        <li>Claude にローカルのファイルを読ませて、内容について質問できる</li>
+        <li>Claude にプロジェクトのファイルを読ませて、内容について質問できる</li>
         <li>「<a class="term" href="../glossary/tool.html">ツール</a>」という考え方を理解する</li>
       </ul>
     </div>
 
     <h2>練習用のファイルを置いてみる</h2>
     <p>
-      STEP 04 で作った <code>claude-test</code> フォルダの中に、適当なテキストファイルを置きましょう。
-      以下のような <code>memo.txt</code> を用意してみてください。
+      STEP 04 で開いた <code>claude-test</code> フォルダの中に、
+      お使いの OS のファイラー (Windows のエクスプローラー、macOS の Finder) で
+      適当なテキストファイルを置きましょう。
+    </p>
+    <p>
+      たとえば、メモ帳 / TextEdit で次のような内容を作って、<code>memo.txt</code> として保存します。
     </p>
 <pre><code>memo.txt:
 今日の買い物リスト
@@ -61,25 +65,38 @@
 - 牛乳 1本
 - パン 2斤</code></pre>
 
-    <h2>そのまま聞いてみる</h2>
-    <p>
-      Claude Code を起動した状態で、こんなふうに頼んでみます。
-    </p>
-<pre><code>&gt; memo.txt の中身を読んで、買い物リストを箇条書きで教えて</code></pre>
-    <p>
-      画面にこういうメッセージが流れるはずです。
-    </p>
-<pre><code>● Read(memo.txt)
-  ⎿  Read 4 lines
+    <h2>2 つの読ませ方</h2>
 
-  はい、読みました。買い物リストは以下のとおりです:
-  - りんご 3個
-  - 牛乳 1本
-  - パン 2斤</code></pre>
+    <h3>方法 A: そのまま聞く (おすすめ)</h3>
+    <p>
+      アプリの入力欄で、ファイル名を含めて頼んでみます。
+    </p>
+<pre><code>memo.txt の中身を読んで、買い物リストを箇条書きで教えて</code></pre>
+    <p>
+      Claude は「<strong>あ、プロジェクトフォルダにあるファイルだな</strong>」と判断して、
+      自動でそのファイルを開きます。画面にこういう表示が流れるはずです。
+    </p>
+<pre><code>📄 Read(memo.txt)
+   ✓ 4 行を読み込みました
+
+はい、読みました。買い物リストは以下のとおりです:
+- りんご 3個
+- 牛乳 1本
+- パン 2斤</code></pre>
+
+    <h3>方法 B: ドラッグ &amp; ドロップで添付</h3>
+    <p>
+      ファイラーから <strong>ファイルを直接アプリの入力欄にドラッグ</strong> しても OK です。
+      入力欄にファイル名のチップが表示され、メッセージと一緒に送れます。
+      プロジェクトフォルダの外にあるファイルを読ませたいときは、こちらが便利です。
+    </p>
+    <div class="tip">
+      入力欄にある「クリップ (📎)」アイコンをクリックして、ファイル選択ダイアログから添付することもできます。
+    </div>
 
     <h2>「<a class="term" href="../glossary/tool.html">ツール</a>」が裏で動いている</h2>
     <p>
-      <code>● Read(memo.txt)</code> という表示に注目してください。
+      画面に出た <code>📄 Read(memo.txt)</code> という表示に注目してください。
       これは「Claude が <strong>Read という <a class="term" href="../glossary/tool.html">ツール</a></strong> を使ってファイルを読んだ」という意味です。
     </p>
     <p>
@@ -97,17 +114,6 @@
       Claude はあなたのお願いを聞いて、必要なツールを自分で選んで使います。
     </p>
 
-    <h2>ファイル名の渡し方いろいろ</h2>
-    <p>
-      ファイルを読ませる方法はいくつかあります。
-    </p>
-    <ol>
-      <li><strong>ファイル名をそのまま書く</strong> — 「memo.txt を見て」</li>
-      <li><strong>パスを書く</strong> — 「<code>./docs/spec.md</code> を要約して」</li>
-      <li><strong>@ 記号で添付する</strong> — 入力中に <code>@</code> を打つとファイル選択メニューが出ます</li>
-      <li><strong>「このファイル」と書く</strong> — 直前の文脈にあるファイルを指す</li>
-    </ol>
-
     <h2>大きすぎるファイルには注意</h2>
     <p>
       Claude が一度に読み込める量には限界があります。これを <a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> と呼びます。
@@ -118,14 +124,20 @@
       範囲を絞って依頼するとうまくいきます。
     </p>
 
-    <div class="tip">
-      フォルダ全体について聞きたいときは「このプロジェクトの構造を教えて」と聞いてみると、
+    <h2>フォルダ全体について聞いてみる</h2>
+    <p>
+      個別のファイルだけでなく、こんな聞き方もできます。
+    </p>
+<pre><code>このプロジェクトのフォルダ構成を教えて</code></pre>
+    <p>
       Claude が自動でファイル一覧を見て、概要をまとめてくれます。
-    </div>
+      新しく開いたプロジェクトを把握するときに便利です。
+    </p>
 
     <h2>このステップのまとめ</h2>
     <ul>
       <li>ファイル名を伝えるだけで Claude が読んでくれる</li>
+      <li>外のファイルはドラッグ &amp; ドロップでも添付できる</li>
       <li>裏では <strong>Read</strong> という <a class="term" href="../glossary/tool.html">ツール</a> が動いている</li>
       <li>大きなファイルは <a class="term" href="../glossary/context-window.html">コンテキストウィンドウ</a> の制限に注意</li>
     </ul>

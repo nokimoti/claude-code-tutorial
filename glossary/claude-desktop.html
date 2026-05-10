@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Node.js - 用語集 - Claude Code はじめの一歩</title>
+<title>Claude Desktop アプリ - 用語集 - Claude Code はじめの一歩</title>
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -38,43 +38,47 @@
 
   <main class="main">
     <div class="step-label">用語集</div>
-    <h1>Node.js</h1>
+    <h1>Claude Desktop アプリ</h1>
 
     <div class="definition">
-      JavaScript で書かれたプログラムを <strong>パソコン上で動かすための土台 (ランタイム)</strong>。
+      <a class="term" href="anthropic.html">Anthropic</a> が提供する、Windows / macOS / Linux 向けの
+      <strong>デスクトップアプリ</strong>。
+      ウィンドウから日本語で話しかけるだけで Claude Code を使えます。
     </div>
 
-    <div class="note">
-      <a class="term" href="claude-desktop.html">Claude Desktop アプリ</a> を使うだけなら、Node.js を別途インストールする必要はありません。
-      Node.js が必要になるのは、Claude Code の <a class="term" href="cli.html">CLI 版</a> を使う場合や、
-      Node.js 製のプロジェクトを Claude にいじってもらう場合だけです。
-    </div>
-
-    <h2>JavaScript はブラウザだけじゃない</h2>
+    <h2>このサイトで使うアプリ</h2>
     <p>
-      もともと JavaScript は Web ブラウザの中で動く言語でしたが、
-      Node.js のおかげで、サーバーやコマンドラインツールも JavaScript で作れるようになりました。
-      Claude Code の CLI 版もこの Node.js で動いています。
+      Claude Code は本来「コマンドラインで動くツール」ですが、
+      Claude Desktop アプリを使うと <strong>すべてマウスとキーボードで完結</strong> します。
+      ターミナルや <a class="term" href="cli.html">CLI</a> の知識がなくても始められるのが大きな利点です。
     </p>
 
-    <h2>必要になる場面</h2>
+    <h2>主な機能</h2>
     <ul>
-      <li>Claude Code の CLI 版 (<code>claude</code> コマンド) を使うとき → Node.js 18 以上が必要</li>
-      <li>Node.js 製のプロジェクト (Express、Next.js など) を Claude に編集させるとき → 動作確認のため</li>
+      <li>会話形式の入力欄と返答ストリーム表示</li>
+      <li>サイドバーから過去の会話を一覧・再開</li>
+      <li>ファイル編集前のサイドバイサイド差分プレビュー</li>
+      <li>ボタンクリックで <a class="term" href="permission-mode.html">許可モード</a> を切替</li>
+      <li>ドラッグ&amp;ドロップでファイル添付</li>
+      <li>設定画面 (歯車アイコン) からモデル・許可・コネクターを GUI で管理</li>
     </ul>
+
+    <h2>入手方法</h2>
     <p>
-      公式サイトの LTS 版 (長期サポート版) を入れておくのが無難です。
+      公式サイト <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a> から
+      自分の OS 用のインストーラーをダウンロードします。
     </p>
+
+    <h2>ブラウザ版 (claude.ai) との違い</h2>
     <ul>
-      <li>公式: <a href="https://nodejs.org/" target="_blank" rel="noopener">nodejs.org</a></li>
+      <li><strong>ブラウザ版</strong>: 会話・文章生成は得意。ファイル操作はアップロードベース、コマンド実行は不可</li>
+      <li><strong>Desktop アプリ</strong>: パソコン内のファイルを直接読み書き・コマンド実行ができる (許可制)</li>
     </ul>
-    <p>
-      入っているかは、<a class="term" href="terminal.html">ターミナル</a> で <code>node --version</code> を実行すれば確認できます。
-    </p>
 
     <h2>関連ステップ</h2>
     <ul>
-      <li><a href="../steps/15-next-step.html">STEP 15: 次の一歩</a></li>
+      <li><a href="../steps/03-install.html">STEP 03: インストール</a></li>
+      <li><a href="../steps/04-first-launch.html">STEP 04: はじめての起動</a></li>
     </ul>
 
     <p style="margin-top: 40px;"><a href="index.html">← 用語集に戻る</a></p>

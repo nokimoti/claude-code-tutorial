@@ -45,74 +45,83 @@
     <div class="goal-box">
       <h2>このステップのゴール</h2>
       <ul>
-        <li>練習用のフォルダを作って Claude Code を起動できる</li>
-        <li>初回ログインを完了して、プロンプトの入力欄が表示されるところまでたどり着く</li>
+        <li>Claude Desktop アプリを起動してログインを完了する</li>
+        <li>練習用のフォルダを「作業対象」としてアプリに認識させる</li>
       </ul>
     </div>
 
-    <h2>1. 練習用のフォルダを作る</h2>
+    <h2>1. アプリを起動する</h2>
     <p>
-      Claude Code は <strong>「いま自分がいるフォルダ」を作業対象にする</strong> 道具です。
-      この「いるフォルダ」のことを <a class="term" href="../glossary/working-directory.html">ワーキングディレクトリ</a> といいます。
-    </p>
-    <p>
-      まずは練習用に空のフォルダを作りましょう。デスクトップやドキュメントの中など、好きな場所で構いません。
-    </p>
-<pre><code>mkdir claude-test
-cd claude-test</code></pre>
-    <p>
-      <code>mkdir</code> はフォルダを作るコマンド、<code>cd</code> はそのフォルダの中に移動するコマンドです。
-    </p>
-
-    <h2>2. <code>claude</code> と打つだけ</h2>
-    <p>
-      その状態で次のコマンドを打ちます。
-    </p>
-<pre><code>claude</code></pre>
-    <p>
-      これだけで Claude Code が起動します。初回起動時は、ターミナルにカラフルなロゴと
-      「Welcome」のメッセージが出るはずです。
-    </p>
-
-    <h2>3. 初回はログインが必要</h2>
-    <p>
-      最初の 1 回だけ、Anthropic アカウントとの紐付けが必要です。
-      画面の指示に従って、次のどちらかを選びます。
+      アプリ一覧から <strong>Claude</strong> のアイコンをクリックします。
     </p>
     <ul>
-      <li><strong>Claude アカウントでログイン</strong> — Pro / Max プランの方はこちら。ブラウザが開いて、claude.ai のログイン画面に飛びます。</li>
-      <li><strong><a class="term" href="../glossary/api-key.html">API キー</a> を入力</strong> — 従量課金で使う方はこちら。</li>
+      <li><strong>Windows</strong>: スタートメニュー or デスクトップから</li>
+      <li><strong>macOS</strong>: Launchpad、Applications フォルダ、Spotlight (<code>⌘ + Space</code>) で「Claude」と検索</li>
+    </ul>
+
+    <h2>2. 初回はログインが必要</h2>
+    <p>
+      初回起動時、ログイン画面が出ます。次のどちらかを選びます。
+    </p>
+    <ul>
+      <li><strong>Claude アカウントでログイン</strong> — Pro / Max プランの方はこちら。「Sign in」を押すと既定のブラウザが開いて認証されます。</li>
+      <li><strong><a class="term" href="../glossary/api-key.html">API キー</a> を入力</strong> — 従量課金で使う方はこちら。設定画面から API キーを貼り付けます。</li>
     </ul>
     <p>
-      ブラウザでログインすると、自動でターミナルに戻り「ログインに成功しました」と表示されます。
+      ブラウザでの認証が終わると、自動でアプリに戻ってきて、メイン画面が表示されます。
     </p>
 
-    <h2>4. 入力欄が出ればOK</h2>
+    <h2>3. 練習用のフォルダを作る</h2>
     <p>
-      ログインが終わると、こんな感じの入力欄が画面の下に表示されます。
+      Claude Code は <strong>「ひとつのフォルダを作業対象として」働く</strong> 道具です。
+      学習用に空のフォルダをひとつ作っておきましょう。
     </p>
-<pre><code>&gt; Try "How does this codebase work?"
-  ────────────────────────────────────</code></pre>
+    <ol>
+      <li>デスクトップでもドキュメントでも、好きな場所で右クリック → 「新しいフォルダー」</li>
+      <li>フォルダ名は <code>claude-test</code> にしておく</li>
+    </ol>
+
+    <h2>4. アプリにフォルダを開かせる</h2>
     <p>
-      ここにキーボードから日本語や英語を入力すると、Claude Code に伝わります。
+      アプリのメイン画面で「<strong>フォルダを開く</strong>」(Open Folder) をクリックします。
+      ファイル選択ダイアログが出るので、いま作った <code>claude-test</code> フォルダを選んで「開く」を押します。
+    </p>
+    <p>
+      これで Claude が <strong>そのフォルダの中にあるファイルを読み書きできる状態</strong> になりました。
+      この「いま開いているフォルダ」のことを <a class="term" href="../glossary/working-directory.html">プロジェクトフォルダ</a> と呼びます。
+    </p>
+
+    <div class="note">
+      別のフォルダで作業したくなったら、いつでもメニューから「フォルダを切り替える」で別の場所を開けます。
+    </div>
+
+    <h2>5. 入力欄が出れば準備完了</h2>
+    <p>
+      ウィンドウの下のほうに、メッセージを書き込む入力欄があります。
+    </p>
+<pre><code>┌──────────────────────────────────────┐
+│ Claude に話しかけてみましょう…       │
+└──────────────────────────────────────┘</code></pre>
+    <p>
+      ここにキーボードから日本語や英語を入力すると、Claude に伝わります。
       これで <a class="term" href="../glossary/session.html">セッション</a> がスタートしました。
     </p>
 
     <h2>終了するには</h2>
     <p>
-      終了したいときは、入力欄に <code>/exit</code> と打つか、<code>Ctrl + C</code> を 2 回押します。
-      これで元のターミナルに戻ります。
+      普通のアプリと同じです。ウィンドウ右上の「×」(macOS は左上の赤丸) を押す、
+      もしくは <code>Ctrl + Q</code> (macOS は <code>⌘ + Q</code>) で終了します。
     </p>
 
     <div class="tip">
-      終了しても会話の内容は記録されています。STEP 13 で「続きから再開する」やり方を学びます。
+      終了しても会話の内容はアプリに保存されています。STEP 13 で「続きから再開する」やり方を学びます。
     </div>
 
     <h2>このステップのまとめ</h2>
     <ul>
-      <li>作業したいフォルダに <code>cd</code> で移動する</li>
-      <li><code>claude</code> と打つだけで起動する</li>
+      <li>アプリのアイコンをクリックして起動</li>
       <li>初回はログイン or API キーを聞かれる</li>
+      <li>「フォルダを開く」で作業対象のプロジェクトフォルダを指定</li>
       <li>入力欄が出たら準備完了 — 次は実際に話しかけます</li>
     </ul>
 

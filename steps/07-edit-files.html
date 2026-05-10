@@ -54,34 +54,34 @@
     <p>
       STEP 06 で作った <code>memo.txt</code> をそのまま使います。たとえばこう頼みます。
     </p>
-<pre><code>&gt; memo.txt のリストに「卵 1パック」を追加して</code></pre>
+<pre><code>memo.txt のリストに「卵 1パック」を追加して</code></pre>
     <p>
-      すると、Claude はまず「どこを、どう書き換えたいか」を画面に表示します。
+      すると、Claude はまず「どこを、どう書き換えたいか」を画面に
+      <strong>差分プレビュー</strong> として表示します。
     </p>
-<pre><code>● Edit(memo.txt)
-  ⎿  - パン 2斤
-     + パン 2斤
-     + - 卵 1パック
+<pre><code>✏️ Edit(memo.txt)
+   - パン 2斤
+   + パン 2斤
+   + - 卵 1パック
 
-  この変更を適用しますか?
-  ❯ 1. Yes (今回だけ許可)
-    2. Yes, and don't ask again (同じ操作を以後ずっと許可)
-    3. No, keep working (今回はスキップ)</code></pre>
+   ┌─────────────────┬──────────────────────┬──────┐
+   │  ✓ 許可する     │  ✓ 同じ操作は今後許可 │  ✕ いいえ │
+   └─────────────────┴──────────────────────┴──────┘</code></pre>
 
     <h2>「<a class="term" href="../glossary/permission-mode.html">許可</a>」を出すまでファイルは変わらない</h2>
     <p>
       ここが Claude Code の <strong>とても大切なポイント</strong> です。
       Claude が勝手にファイルを書き換えることはありません。
-      <strong>あなたが「Yes」と答えるまで、ファイルはそのまま</strong> です。
+      <strong>あなたが「許可する」を押すまで、ファイルはそのまま</strong> です。
     </p>
     <p>
       この仕組みを <a class="term" href="../glossary/permission-mode.html">許可モード</a> といいます。
-      初期状態では「ファイル編集」「コマンド実行」など、危険になりうる操作の前に必ず確認が入ります。
+      初期状態では「ファイル編集」「コマンド実行」など、危険になりうる操作の前に必ず確認ダイアログが出ます。
     </p>
 
     <h2>差分の見かた</h2>
     <p>
-      確認画面に出てくる記号には意味があります。
+      確認画面に出てくる差分には意味があります。
     </p>
     <ul>
       <li><code>+</code> 緑色 = 追加される行</li>
@@ -89,28 +89,28 @@
       <li>変わらない行は、前後の数行が文脈として表示される</li>
     </ul>
     <p>
-      <strong>差分(diff)に納得してから Yes を押す</strong> 習慣をつけましょう。
-      これは <a class="term" href="../glossary/git.html">Git</a> のコミット前確認と同じ感覚です。
+      アプリによってはサイドバイサイド (左:変更前 / 右:変更後) で表示されることもあります。
+      <strong>差分を見て納得してから「許可する」を押す</strong> 習慣をつけましょう。
     </p>
 
-    <h2>3 つの選択肢の違い</h2>
+    <h2>3 つのボタンの違い</h2>
     <table>
       <thead>
-        <tr><th>選択肢</th><th>意味</th><th>使いどころ</th></tr>
+        <tr><th>ボタン</th><th>意味</th><th>使いどころ</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td>1. Yes</td>
+          <td>許可する</td>
           <td>今回だけ許可</td>
           <td>毎回中身を確認したいとき (推奨)</td>
         </tr>
         <tr>
-          <td>2. Yes, and don't ask again</td>
+          <td>同じ操作は今後許可</td>
           <td>このセッション中、同じツールは聞かない</td>
           <td>大量に編集が続くと分かっていて、信頼できるとき</td>
         </tr>
         <tr>
-          <td>3. No</td>
+          <td>いいえ</td>
           <td>キャンセル</td>
           <td>差分を見て「違うな」と思ったとき</td>
         </tr>
@@ -118,8 +118,8 @@
     </table>
 
     <div class="warning">
-      慣れないうちは <strong>毎回 1. Yes を選ぶ</strong> のがおすすめです。
-      「Don't ask again」を押した瞬間に大量のファイルを書き換えられて泣く、というのは初心者あるあるです。
+      慣れないうちは <strong>毎回「許可する」を選ぶ</strong> のがおすすめです。
+      「今後許可」を押した瞬間に大量のファイルを書き換えられて泣く、というのは初心者あるあるです。
     </div>
 
     <h2>新しいファイルを作ってもらう</h2>
@@ -127,27 +127,27 @@
       <strong>Edit</strong> は既存ファイルの書き換え、<strong>Write</strong> は新規ファイルの作成や全置換に使われます。
       たとえば、こんな依頼で新しいファイルが作れます。
     </p>
-<pre><code>&gt; hello.py という Python ファイルを作って、
-&gt; 「Hello, Claude!」と表示するコードを書いて</code></pre>
+<pre><code>hello.py という Python ファイルを作って、
+「Hello, Claude!」と表示するコードを書いて</code></pre>
     <p>
-      Claude が <code>● Write(hello.py)</code> を提案してくるので、内容を確認して許可すれば作成完了です。
+      Claude が <code>📝 Write(hello.py)</code> を提案してくるので、内容を確認して許可すれば作成完了です。
+      作成されたファイルは、すぐにファイラーや好きなエディタで開けます。
     </p>
 
     <h2>気に入らなかったら、戻させればいい</h2>
     <p>
       編集後に「やっぱり違った」と思ったら、Claude に「さっきの編集を戻して」と頼めばすぐ戻ります。
-      <a class="term" href="../glossary/git.html">Git</a> を使っているなら <code>git diff</code> や <code>git checkout</code> でも戻せます。
     </p>
-
     <div class="tip">
-      Claude Code には「直前の状態に戻す」機能 (<a class="term" href="../glossary/checkpoint.html">チェックポイント</a>) もあります。
-      入力欄で <code>Esc Esc</code> を押すと、過去のメッセージまで巻き戻せます。
+      Claude Desktop アプリには「直前の状態に戻す」機能 (<a class="term" href="../glossary/checkpoint.html">チェックポイント</a>) もあります。
+      メッセージにマウスを乗せると現れる「↶」ボタンや、
+      メニューの「会話を巻き戻す」から、過去のメッセージまで戻れます。
     </div>
 
     <h2>このステップのまとめ</h2>
     <ul>
-      <li>編集を頼むと、Claude はまず差分を提示して <a class="term" href="../glossary/permission-mode.html">許可</a> を求める</li>
-      <li>「Yes」を押すまでファイルは変わらない</li>
+      <li>編集を頼むと、Claude はまず差分プレビューを表示して <a class="term" href="../glossary/permission-mode.html">許可</a> を求める</li>
+      <li>「許可する」を押すまでファイルは変わらない</li>
       <li>差分を確認してから許可する習慣を持つ</li>
       <li>新規作成は Write、書き換えは Edit という <a class="term" href="../glossary/tool.html">ツール</a> を使い分ける</li>
     </ul>
